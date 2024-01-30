@@ -1,4 +1,4 @@
-## date
+## {{date}}
 ### Notes for meeting
 #### What did we achieve
 * bullet points
@@ -16,13 +16,24 @@ Daily notes are supposed to be more specific
 ### Tuesday notes
 What did we do today?
 
+
 How long did we spend on lunch?
 
+
 How much time did we spend actively working?
+
+
+What are we doing next time?
+
 
 ### Thursday Notes
 What did we do today?
 
+
 How long did we spend on lunch?
 
+
 How much time did we spend actively working?
+
+
+What are we doing next time?
