@@ -1,3 +1,7 @@
+---
+tags:
+  - weekly-notes
+---
 ## {{date}}
 ### Notes for meeting
 #### What did we achieve
