@@ -1,6 +1,11 @@
 ---
 Title: EEG-Based Brain-Computer Interfaces Using Motor-Imagery, Techniques and Challenges
-Authors: Natasha Padfield, Jaime Zabalza, Huimin Zhao, Valentin Masero, Jinchang Ren
+Authors:
+  - Natasha Padfield
+  - Jaime Zabalza
+  - Huimin Zhao
+  - Valentin Masero
+  - Jinchang Ren
 DOI: https://doi.org/10.3390/s19061423
 link: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6471241/
 tags:

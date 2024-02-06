@@ -1,6 +1,8 @@
 ---
 Title: EEG Normal Waveforms
-Authors: Chetan S. Nayak; Arayamparambil C. Anilkumar.
+Authors:
+  - Chetan S. Nayak
+  - Arayamparambil C. Anilkumar
 DOI: 
 link: https://www.ncbi.nlm.nih.gov/books/NBK539805
 tags:

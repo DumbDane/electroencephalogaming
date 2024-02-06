@@ -3,7 +3,8 @@ Title: "{{title}}"
 Authors: 
 DOI: 
 link: 
-tags:
+tags: 
+Read: false
 ---
 
 # {{title}}

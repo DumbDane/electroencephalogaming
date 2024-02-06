@@ -1,6 +1,10 @@
 ---
 Title: EEG-Based Continuous Hand Movement Decoding Using Improved Center-Out Paradigm
-Authors: Jiarong Wang, Luzheng Bi, Weijie Fei, Kun Tian
+Authors:
+  - Jiarong Wang
+  - Luzheng Bi
+  - Weijie Fei
+  - Kun Tian
 DOI: https://doi.org/10.1109/TNSRE.2022.3211276
 link: https://pubmed.ncbi.nlm.nih.gov/36191111/
 tags:

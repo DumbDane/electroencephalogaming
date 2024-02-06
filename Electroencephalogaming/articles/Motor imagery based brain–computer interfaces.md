@@ -1,6 +1,8 @@
 ---
 Title: Chapter 8 - Motor imagery based brain–computer interfaces
-Authors: Reinhold Scherer, Carmen Vidaurre
+Authors:
+  - Reinhold Scherer
+  - Carmen Vidaurre
 DOI: https://doi.org/10.1016/B978-0-12-812892-3.00008-X
 link: https://www.sciencedirect.com/science/article/pii/B978012812892300008X?ref=pdf_download&fr=RR-2&rr=84e95342fd2cbe4e
 tags:

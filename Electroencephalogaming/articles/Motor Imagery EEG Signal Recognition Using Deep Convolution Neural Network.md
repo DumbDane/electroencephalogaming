@@ -1,6 +1,8 @@
 ---
 Title: Motor Imagery EEG Signal Recognition Using Deep Convolution Neural Network
-Authors: Xiongliang Xiao, Yuee Fang
+Authors:
+  - Xiongliang Xiao
+  - Yuee Fang
 DOI: https://doi.org/10.3389/fnins.2021.655599
 link: https://www.frontiersin.org/articles/10.3389/fnins.2021.655599/full
 tags:

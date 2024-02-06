@@ -1,6 +1,9 @@
 ---
 Title: EEG correlates of video game experience and user profile in motor-imagery-based brain–computer interaction
-Authors: Athanasios Vourvopoulos, Sergi Bermúdezra i Badia, Fotis Liarokapis
+Authors:
+  - Athanasios Vourvopoulos
+  - Sergi Bermúdezra i Badia
+  - Fotis Liarokapis
 DOI: https://doi.org/10.1007/s00371-016-1304-2
 link: https://www.researchgate.net/publication/306292804
 tags:

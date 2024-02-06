@@ -1,11 +1,15 @@
 ---
 Title: Classification of Movement Intention Using Independent Components of Premovement EEG
-Authors: Hyeonseok Kim,  Natsue Yoshimura, Yasuharu Koike
+Authors:
+  - Hyeonseok Kim
+  - Natsue Yoshimura
+  - Yasuhara Koike
 DOI: https://doi.org/10.3389/fnhum.2019.00063
 link: https://www.frontiersin.org/articles/10.3389/fnhum.2019.00063/full
 tags:
   - motor-imagery
   - hand-movement
+Read: false
 ---
 (not sure about the hand movement tag)
 # Classification of Movement Intention Using Independent Components of Premovement EEG

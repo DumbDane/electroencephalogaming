@@ -1,6 +1,8 @@
 ---
 Title: Comparison of signal decomposition methods in classification of EEG signals for motor-imagery BCI system
-Authors: Jasmin Kevric, Abdulhamit Subasi
+Authors:
+  - Jasmin Kevric
+  - Abdulhamit Subasi
 DOI: https://doi.org/10.1016/j.bspc.2016.09.007
 link: https://www.sciencedirect.com/science/article/pii/S1746809416301331
 tags:

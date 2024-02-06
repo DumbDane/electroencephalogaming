@@ -1,6 +1,9 @@
 ---
 Title: "EEG-based BCI and video games: a progress report"
-Authors: Bojan Kerous, Filip Škola, F. Liarokapis
+Authors:
+  - Bojan Kerous
+  - Filip Škola
+  - Fotis Liarokapis
 DOI: https://doi.org/10.1007/s10055-017-0328-x
 link: https://www.semanticscholar.org/paper/faae3d1d38cd8c899d610bec0a18931b5da78ab3
 tags:

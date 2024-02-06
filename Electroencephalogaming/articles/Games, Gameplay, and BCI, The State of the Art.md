@@ -1,6 +1,10 @@
 ---
 Title: "Games, Gameplay, and BCI: The State of the Art"
-Authors: David Marshall, Damien Coyle, Shane Wilson, Michael Callaghan
+Authors:
+  - David Marshall
+  - Damien Coyle
+  - Shane Wilson
+  - Michael Callaghan
 DOI: https://doi.org/10.1109/TCIAIG.2013.2263555
 link: https://ieeexplore.ieee.org/document/6518141
 tags:

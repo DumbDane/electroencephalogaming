@@ -1,6 +1,9 @@
 ---
 Title: "Deep learning for motor imagery EEG-based classification: A review"
-Authors: Ali Al-Saegh, Shefa A. Dawwd, Jassim M. Abdul-Jabbar
+Authors:
+  - Ali Al-Saegh
+  - Shefa A. Dawwd
+  - Jassim M. Abdul-Jabbar
 DOI: https://doi.org/10.1016/j.bspc.2020.102172
 link: https://www.sciencedirect.com/science/article/pii/S1746809420303116
 tags:

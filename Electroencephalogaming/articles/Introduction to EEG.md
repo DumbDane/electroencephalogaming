@@ -1,6 +1,7 @@
 ---
 Title: Introduction to EEG
-Authors: Smith, E.J.
+Authors:
+  - E. J. Smith
 DOI: 
 link: https://www.ebme.co.uk/articles/clinical-engineering/introduction-to-eeg
 tags:

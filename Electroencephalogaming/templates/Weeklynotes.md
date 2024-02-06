@@ -3,7 +3,10 @@ tags:
   - weekly-notes
 ---
 ## {{date}}
-### Notes for meeting
+[[TO-DO]]
+### Notes from meeting
+
+### Notes for next meeting
 #### What did we achieve
 * bullet points
 #### What did we struggle with
