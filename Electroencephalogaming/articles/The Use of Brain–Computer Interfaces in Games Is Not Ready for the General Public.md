@@ -1,10 +1,12 @@
 ---
 Title: The Use of Brain–Computer Interfaces in Games Is Not Ready for the General Public
-Authors: Grégoire Cattan
+Authors:
+  - Grégoire Cattan
 DOI: https://doi.org/10.3389/fcomp.2021.628773
 link: https://www.frontiersin.org/articles/10.3389/fcomp.2021.628773/full
 tags:
   - games
+Read: false
 ---
 
 # The Use of Brain–Computer Interfaces in Games Is Not Ready for the General Public

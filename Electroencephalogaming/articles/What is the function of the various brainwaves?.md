@@ -1,10 +1,12 @@
 ---
 Title: What is the function of the various brainwaves?
-Authors: Scientific American
+Authors:
+  - Scientific American
 DOI: 
 link: https://www.scientificamerican.com/article/what-is-the-function-of-t-1997-12-22/
 tags:
   - brain
+Read: true
 ---
 
 # What is the function of the various brainwaves?

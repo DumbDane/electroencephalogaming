@@ -8,6 +8,7 @@ DOI: https://doi.org/10.1016/j.entcom.2009.09.007
 link: https://www.sciencedirect.com/science/article/pii/S187595210900010X
 tags:
   - games
+Read: false
 ---
 
 # Turning shortcomings into challenges: Brain–computer interfaces for games

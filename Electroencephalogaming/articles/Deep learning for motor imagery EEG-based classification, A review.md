@@ -9,6 +9,7 @@ link: https://www.sciencedirect.com/science/article/pii/S1746809420303116
 tags:
   - motor-imagery
   - deep-learning
+Read: false
 ---
 
 # Deep learning for motor imagery EEG-based classification, A review

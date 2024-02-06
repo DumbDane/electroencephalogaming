@@ -11,6 +11,7 @@ link: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6471241/
 tags:
   - motor-imagery
   - feature-extraction
+Read: false
 ---
 
 # EEG-Based Brain-Computer Interfaces Using Motor-Imagery, Techniques and Challenges

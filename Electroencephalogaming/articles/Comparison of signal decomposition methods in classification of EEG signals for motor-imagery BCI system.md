@@ -8,6 +8,7 @@ link: https://www.sciencedirect.com/science/article/pii/S1746809416301331
 tags:
   - motor-imagery
   - signal-processing
+Read: false
 ---
 
 # Comparison of signal decomposition methods in classification of EEG signals for motor-imagery BCI system

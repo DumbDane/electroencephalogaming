@@ -10,6 +10,7 @@ link: https://pubmed.ncbi.nlm.nih.gov/36191111/
 tags:
   - EEG
   - hand-movement
+Read: false
 ---
 
 # EEG-Based Continuous Hand Movement Decoding Using Improved Center-Out Paradigm

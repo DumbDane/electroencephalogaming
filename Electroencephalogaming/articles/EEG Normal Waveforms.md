@@ -8,6 +8,7 @@ link: https://www.ncbi.nlm.nih.gov/books/NBK539805
 tags:
   - EEG
   - brain
+Read: false
 ---
 
 # EEG Normal Waveforms

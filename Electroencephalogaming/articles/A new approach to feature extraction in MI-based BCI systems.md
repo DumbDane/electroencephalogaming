@@ -11,7 +11,6 @@ tags:
   - feature-extraction
 Read: false
 ---
-
 # A new approach to feature extraction in MI-based BCI systems
 
 ### Abstract

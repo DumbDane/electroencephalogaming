@@ -1,10 +1,12 @@
 ---
 Title: Understanding brain waves
-Authors: Neurofeedback Alliance
+Authors:
+  - Neurofeedback Alliance
 DOI: 
 link: https://neurofeedbackalliance.org/understanding-brain-waves/
 tags:
   - brain
+Read: true
 ---
 
 # Understanding brain waves

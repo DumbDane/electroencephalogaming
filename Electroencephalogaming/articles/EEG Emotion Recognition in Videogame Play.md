@@ -1,11 +1,13 @@
 ---
 Title: EEG Emotion Recognition in Videogame Play
-Authors: José Rodríguez
+Authors:
+  - José Rodríguez
 DOI: 
 link: https://kbdk-aub.primo.exlibrisgroup.com/permalink/45KBDK_AUB/a7me0f/alma9921563982705762
 tags:
   - games
   - emotion-recognition
+Read: false
 ---
 
 # EEG Emotion Recognition in Videogame Play

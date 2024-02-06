@@ -7,6 +7,7 @@ link: https://www.ebme.co.uk/articles/clinical-engineering/introduction-to-eeg
 tags:
   - EEG
   - brain
+Read: false
 ---
 
 # Introduction to EEG

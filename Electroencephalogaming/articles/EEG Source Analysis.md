@@ -1,10 +1,12 @@
 ---
 Title: EEG Source Analysis
-Authors: Marco Congedo
+Authors:
+  - Marco Congedo
 DOI: 
 link: https://theses.hal.science/tel-00880483
 tags:
   - EEG
+Read: false
 ---
 
 # EEG Source Analysis

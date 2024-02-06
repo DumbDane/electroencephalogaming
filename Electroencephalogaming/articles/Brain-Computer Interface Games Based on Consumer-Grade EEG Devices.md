@@ -6,6 +6,7 @@ DOI: https://doi.org/10.1080/10447318.2019.1612213
 link: https://www.tandfonline.com/doi/full/10.1080/10447318.2019.1612213
 tags:
   - literature-review
+Read: true
 ---
 # Brain-Computer Interface Games Based on Consumer-Grade EEG Devices: A Systematic Literature Review
 

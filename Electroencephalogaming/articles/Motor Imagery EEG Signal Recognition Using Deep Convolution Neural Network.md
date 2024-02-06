@@ -9,6 +9,7 @@ tags:
   - "#signal-processing"
   - deep-learning
   - motor-imagery
+Read: false
 ---
 
 # Motor Imagery EEG Signal Recognition Using Deep Convolution Neural Network

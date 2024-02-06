@@ -12,6 +12,7 @@ link: https://ieeexplore.ieee.org/document/9932937
 tags:
   - "#motor-imagery"
   - games
+Read: false
 ---
 
 # Motor Imagery Approach for BCI Game Development

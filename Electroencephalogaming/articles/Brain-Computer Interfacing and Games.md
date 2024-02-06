@@ -9,6 +9,7 @@ DOI: 10.1007/978-1-84996-272-8_10
 link: https://www.researchgate.net/publication/225992971_Brain-Computer_Interfacing_and_Games
 tags:
   - games
+Read: false
 ---
 # Brain-Computer Interfacing and Games
 

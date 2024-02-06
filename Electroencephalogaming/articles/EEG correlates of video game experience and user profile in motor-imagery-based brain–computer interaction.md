@@ -9,6 +9,7 @@ link: https://www.researchgate.net/publication/306292804
 tags:
   - motor-imagery
   - games
+Read: false
 ---
 
 # EEG correlates of video game experience and user profile in motor-imagery-based brain–computer interaction

@@ -15,9 +15,8 @@
 
 ## Backlog
 
+
 ## To-Read
 ```query
-[Read: false] path:-"templates"
+[read: false]
 ```
-
-
