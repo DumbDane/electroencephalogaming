@@ -7,7 +7,7 @@ Authors:
   - Valentin Masero
   - Jinchang Ren
 DOI: https://doi.org/10.3390/s19061423
-link: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6471241/
+link: https://ncbi.nlm.nih.gov/pmc/articles/PMC6471241/
 tags:
   - motor-imagery
   - feature-extraction

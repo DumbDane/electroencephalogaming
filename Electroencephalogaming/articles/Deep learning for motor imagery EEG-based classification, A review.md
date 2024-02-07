@@ -5,7 +5,7 @@ Authors:
   - Shefa A. Dawwd
   - Jassim M. Abdul-Jabbar
 DOI: https://doi.org/10.1016/j.bspc.2020.102172
-link: https://www.sciencedirect.com/science/article/pii/S1746809420303116
+link: https://sciencedirect.com/science/article/pii/S1746809420303116
 tags:
   - motor-imagery
   - deep-learning

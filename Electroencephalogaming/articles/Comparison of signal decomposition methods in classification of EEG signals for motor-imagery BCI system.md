@@ -4,7 +4,7 @@ Authors:
   - Jasmin Kevric
   - Abdulhamit Subasi
 DOI: https://doi.org/10.1016/j.bspc.2016.09.007
-link: https://www.sciencedirect.com/science/article/pii/S1746809416301331
+link: https://sciencedirect.com/science/article/pii/S1746809416301331
 tags:
   - motor-imagery
   - signal-processing

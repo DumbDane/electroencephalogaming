@@ -5,7 +5,7 @@ Authors:
   - Natsue Yoshimura
   - Yasuhara Koike
 DOI: https://doi.org/10.3389/fnhum.2019.00063
-link: https://www.frontiersin.org/articles/10.3389/fnhum.2019.00063/full
+link: https://frontiersin.org/articles/10.3389/fnhum.2019.00063/full
 tags:
   - motor-imagery
   - hand-movement

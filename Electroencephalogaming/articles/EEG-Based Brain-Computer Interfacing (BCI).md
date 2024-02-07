@@ -4,7 +4,7 @@ Authors:
   - Dipali Bansal
   - Rashima Mahajan
 DOI: https://doi.org/10.1016/B978-0-12-814687-3.00002-8
-link: https://www.sciencedirect.com/science/article/pii/B9780128146873000028?ref=pdf_download&fr=RR-2&rr=84e9197b6f25abd8
+link: https://sciencedirect.com/science/article/pii/B9780128146873000028?ref=pdf_download&fr=RR-2&rr=84e9197b6f25abd8
 tags:
   - EEG
 Read: false

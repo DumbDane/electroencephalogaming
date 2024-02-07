@@ -6,7 +6,7 @@ Authors:
   - Doris Flotzinger
   - Martin Pregenzer
 DOI: https://doi.org/10.1016/S0013-4694(97)00080-1
-link: https://www.sciencedirect.com/science/article/pii/S0013469497000801
+link: https://sciencedirect.com/science/article/pii/S0013469497000801
 tags:
   - hand-movement
 Read: true

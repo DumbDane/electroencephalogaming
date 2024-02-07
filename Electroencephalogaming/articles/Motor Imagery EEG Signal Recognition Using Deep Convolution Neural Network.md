@@ -4,7 +4,7 @@ Authors:
   - Xiongliang Xiao
   - Yuee Fang
 DOI: https://doi.org/10.3389/fnins.2021.655599
-link: https://www.frontiersin.org/articles/10.3389/fnins.2021.655599/full
+link: https://frontiersin.org/articles/10.3389/fnins.2021.655599/full
 tags:
   - "#signal-processing"
   - deep-learning

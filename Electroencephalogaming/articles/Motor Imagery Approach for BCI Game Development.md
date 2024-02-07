@@ -7,7 +7,7 @@ Authors:
   - Katerina D. Tzimourta
   - Nikolaos Giannakeas
   - Markos G. Tsipouras
-DOI: 10.1109/SEEDA-CECNSM57760.2022.9932937
+DOI: https://doi.org/10.1109/SEEDA-CECNSM57760.2022.9932937
 link: https://ieeexplore.ieee.org/document/9932937
 tags:
   - "#motor-imagery"

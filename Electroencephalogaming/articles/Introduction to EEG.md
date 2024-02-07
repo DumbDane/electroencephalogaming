@@ -3,7 +3,7 @@ Title: Introduction to EEG
 Authors:
   - E. J. Smith
 DOI: 
-link: https://www.ebme.co.uk/articles/clinical-engineering/introduction-to-eeg
+link: https://ebme.co.uk/articles/clinical-engineering/introduction-to-eeg
 tags:
   - EEG
   - brain

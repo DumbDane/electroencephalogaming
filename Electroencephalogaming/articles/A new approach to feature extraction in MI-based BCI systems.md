@@ -6,7 +6,7 @@ Authors:
   - Mohammad Reza Aslani
   - Mohammad Hassan Moradi
 DOI: https://doi.org/10.1016/B978-0-323-91197-9.00002-3
-link: https://www.sciencedirect.com/science/article/pii/B9780323911979000023?ref=pdf_download&fr=RR-2&rr=84e9197aadcdabd8
+link: https://sciencedirect.com/science/article/pii/B9780323911979000023
 tags:
   - feature-extraction
 Read: false

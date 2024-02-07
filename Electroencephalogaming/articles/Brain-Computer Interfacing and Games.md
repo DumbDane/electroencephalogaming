@@ -5,8 +5,8 @@ Authors:
   - Boris Reuderink
   - Bram van de Laar
   - Hayrettin Gürkök
-DOI: 10.1007/978-1-84996-272-8_10
-link: https://www.researchgate.net/publication/225992971_Brain-Computer_Interfacing_and_Games
+DOI: https://doi.org/10.1007/978-1-84996-272-8_10
+link: https://researchgate.net/publication/225992971_Brain-Computer_Interfacing_and_Games
 tags:
   - games
 Read: true

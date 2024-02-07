@@ -6,7 +6,7 @@ Authors:
   - Wei Meng
   - Sheng Quan Xie
 DOI: https://doi.org/10.1016/B978-0-12-814597-5.00002-3
-link: https://www.sciencedirect.com/science/article/pii/B9780128145975000023?ref=pdf_download&fr=RR-2&rr=84e95f68997310c5
+link: https://sciencedirect.com/science/article/pii/B9780128145975000023
 tags:
   - EEG
 Read: false
