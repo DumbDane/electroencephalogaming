@@ -33,6 +33,18 @@ How much time did we spend actively working?
 What are we doing next time?
 
 
+### Wednesday Notes
+What did we do today?
+
+
+How long did we spend on lunch?
+
+
+How much time did we spend actively working?
+
+
+What are we doing next time?
+
 ### Thursday Notes
 What did we do today?
 
