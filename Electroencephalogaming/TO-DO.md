@@ -16,7 +16,7 @@
 From [[Autocalibration and Recurrent Adaptation, Towards a Plug and Play Online ERD-BCI |Auto-calibration paper]]:
 [[The Berlin Brain-Computer Interface, Accurate performance from first-session in BCI-naive subjects|10 (Try different motor imagery techniques)]],
 [[Machine-Learning-Based Co-adaptive Calibration for Brain-Computer Interfaces|15 (Co-adaptive calibration)]], 
-[[Co-adaptive calibration to improve BCI efficiency|16 (Co-adaptive calibration 2.0)]],
+[[Co-adaptive calibration to improve BCI efficiency|16 (Co-adaptive calibration improvement)]],
 [[An on-line transformation of EEG scalp potentials into orthogonal source derivations|20 (transformation of scalp potentials into orthogonal source derivations)]],
 From [[Beamforming in Noninvasive Brain–Computer Interfaces|Beamforming]]:
 [[Comparison of linear, nonlinear, and feature selection methods for EEG signal classification|7 (Linear models vs NN)]],

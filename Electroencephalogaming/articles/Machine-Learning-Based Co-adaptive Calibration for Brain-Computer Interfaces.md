@@ -6,7 +6,7 @@ Authors:
   - Klaus-Robert Müller
   - Benjamin Blankertz
 DOI: https://doi.org/10.1162/NECO_a_00089
-link: https://direct.mit.edu/neco/article-abstract/23/3/791/7645/Machine-Learning-Based-Coadaptive-Calibration-for
+link: https://doc.ml.tu-berlin.de/bbci/publications/VidSanMueBla10.pdf
 tags:
   - calibration
   - motor-imagery
