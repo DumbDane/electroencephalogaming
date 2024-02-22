@@ -126,3 +126,12 @@ Frequency-based analyses are recommended whenever testing time is limited and yo
 ### The Fast Fourier Transform (FFT)
 FFT transforms the EEG signal into the frequency domain. 
 ???????????????? ◡̈
+
+## Cognitive-affective metrics
+Whenever brain-based workload or drowsiness levels exceed a specified threshold value, there can be a notification to instantiate some counteraction. The two metrics used are cognitive states and workload.
+
+# EEG and multimodal research
+You can add other sensors to EEG:
+- eye tracking (especially useful when visual stimuli are part of the research, pupil dilation is good to measure for arousal)
+- ECG/PPG  (heart rate allows to track physical state, anxiety and stress levels; makes sense for decontamination procedures as heart beats can cause strong artefacts in EEG data)
+- Facial expression analysis
