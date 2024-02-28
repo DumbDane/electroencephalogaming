@@ -1,0 +1,11 @@
+name: eeg
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - mne
+  - psychopy
+  - pip
+  - pip:
+    - moabb
