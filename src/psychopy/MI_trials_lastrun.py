@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.2.3),
-    on Wed Feb 28 13:11:34 2024
+    on Thu Feb 29 11:29:25 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -41,7 +41,7 @@ expName = 'MI_Trials'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
     'session': '001',
-    'trials': '60',
+    'trials': '6',
     'date': data.getDateStr(),  # add a simple timestamp
     'expName': expName,
     'psychopyVersion': psychopyVersion,
@@ -107,8 +107,8 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version='',
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='/Users/lauridspedersen/git/electroencephalogaming/src/psychopy/MI_trials_lastrun.py',
-        savePickle=True, saveWideText=False,
+        originPath='/Users/chrisaftzidis/git/electroencephalogaming/src/psychopy/MI_trials_lastrun.py',
+        savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
     thisExp.setPriority('thisRow.t', priority.CRITICAL)
@@ -321,12 +321,18 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     trialCount = int(expInfo['trials']) // 3
     directions = [0] * trialCount + [90] * trialCount + [270] * trialCount
     shuffle(directions)
+    
+    import time
+    thisExp.addData("timeBeginExp", time.time())
     arr = visual.ShapeStim(
         win=win, name='arr', vertices='arrow',
         size=(0.5, 0.5),
         ori=1.0, pos=(0, 0), anchor='center',
         lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
         opacity=None, depth=-1.0, interpolate=True)
+    cue = sound.Sound('A', secs=1.0, stereo=True, hamming=True,
+        name='cue')
+    cue.setVolume(1.0)
     
     # --- Initialize components for Routine "wait" ---
     
@@ -390,7 +396,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         
         # --- Run Routine "cross" ---
         routineForceEnded = not continueRoutine
-        while continueRoutine and routineTimer.getTime() < 1.0:
+        while continueRoutine and routineTimer.getTime() < 3.0:
             # get current time
             t = routineTimer.getTime()
             tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -421,7 +427,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             # if polygon is stopping this frame...
             if polygon.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > polygon.tStartRefresh + 1.0-frameTolerance:
+                if tThisFlipGlobal > polygon.tStartRefresh + 3.0-frameTolerance:
                     # keep track of stop time/frame for later
                     polygon.tStop = t  # not accounting for scr refresh
                     polygon.frameNStop = frameN  # exact frame index
@@ -461,7 +467,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         if routineForceEnded:
             routineTimer.reset()
         else:
-            routineTimer.addTime(-1.000000)
+            routineTimer.addTime(-3.000000)
         
         # --- Prepare to start Routine "arrow" ---
         continueRoutine = True
@@ -469,9 +475,14 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         thisExp.addData('arrow.started', globalClock.getTime())
         # Run 'Begin Routine' code from code
         direction = directions.pop()
+        
+        thisExp.addData("timeBeginRout", time.time())
         arr.setOri(direction)
+        cue.setSound('A', secs=1.0, hamming=True)
+        cue.setVolume(1.0, log=False)
+        cue.seek(0)
         # keep track of which components have finished
-        arrowComponents = [arr]
+        arrowComponents = [arr, cue]
         for thisComponent in arrowComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
@@ -494,7 +505,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             # is it time to end the Routine? (based on local clock)
-            if tThisFlip > 2-frameTolerance:
+            if tThisFlip > 5-frameTolerance:
                 continueRoutine = False
             
             # *arr* updates
@@ -520,7 +531,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             # if arr is stopping this frame...
             if arr.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > arr.tStartRefresh + random()+1-frameTolerance:
+                if tThisFlipGlobal > arr.tStartRefresh + random()+4-frameTolerance:
                     # keep track of stop time/frame for later
                     arr.tStop = t  # not accounting for scr refresh
                     arr.frameNStop = frameN  # exact frame index
@@ -529,6 +540,36 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
                     # update status
                     arr.status = FINISHED
                     arr.setAutoDraw(False)
+            
+            # if cue is starting this frame...
+            if cue.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                cue.frameNStart = frameN  # exact frame index
+                cue.tStart = t  # local t and not account for scr refresh
+                cue.tStartRefresh = tThisFlipGlobal  # on global time
+                # add timestamp to datafile
+                thisExp.addData('cue.started', tThisFlipGlobal)
+                # update status
+                cue.status = STARTED
+                cue.play(when=win)  # sync with win flip
+            
+            # if cue is stopping this frame...
+            if cue.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > cue.tStartRefresh + 1.0-frameTolerance:
+                    # keep track of stop time/frame for later
+                    cue.tStop = t  # not accounting for scr refresh
+                    cue.frameNStop = frameN  # exact frame index
+                    # add timestamp to datafile
+                    thisExp.timestampOnFlip(win, 'cue.stopped')
+                    # update status
+                    cue.status = FINISHED
+                    cue.stop()
+            # update cue status according to whether it's playing
+            if cue.isPlaying:
+                cue.status = STARTED
+            elif cue.isFinished:
+                cue.status = FINISHED
             
             # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
@@ -556,6 +597,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
         thisExp.addData('arrow.stopped', globalClock.getTime())
+        cue.pause()  # ensure sound has stopped at end of Routine
         # the Routine "arrow" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         
@@ -579,7 +621,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         
         # --- Run Routine "wait" ---
         routineForceEnded = not continueRoutine
-        while continueRoutine and routineTimer.getTime() < 1.0:
+        while continueRoutine and routineTimer.getTime() < 3.0:
             # get current time
             t = routineTimer.getTime()
             tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -587,7 +629,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             # is it time to end the Routine? (based on local clock)
-            if tThisFlip > 1-frameTolerance:
+            if tThisFlip > 3-frameTolerance:
                 continueRoutine = False
             
             # check for quit (typically the Esc key)
@@ -620,7 +662,12 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         if routineForceEnded:
             routineTimer.reset()
         else:
-            routineTimer.addTime(-1.000000)
+            routineTimer.addTime(-3.000000)
+        thisExp.nextEntry()
+        
+        if thisSession is not None:
+            # if running in a Session with a Liaison client, send data up to now
+            thisSession.sendExperimentData()
     # completed trialCount*3 repeats of 'trials'
     
     
@@ -640,6 +687,7 @@ def saveData(thisExp):
     """
     filename = thisExp.dataFileName
     # these shouldn't be strictly necessary (should auto-save)
+    thisExp.saveAsWideText(filename + '.csv', delim='auto')
     thisExp.saveAsPickle(filename)
 
 
