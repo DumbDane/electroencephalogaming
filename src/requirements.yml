@@ -6,6 +6,7 @@ dependencies:
   - python
   - mne
   - psychopy
+  - liblsl
   - pip
   - pip:
     - moabb
