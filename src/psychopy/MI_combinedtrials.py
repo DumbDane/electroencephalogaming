@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.2.3),
-    on Tue Mar 12 10:04:33 2024
+    on Tue Mar 12 10:21:33 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -37,7 +37,7 @@ from psychopy.hardware import keyboard
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 # Store info about the experiment session
 psychopyVersion = '2023.2.3'
-expName = 'MI_Trials'  # from the Builder filename that created this script
+expName = 'MI_combinedtrials'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
     'session': '001',
@@ -107,7 +107,7 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version='',
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='/Users/lauridspedersen/git/electroencephalogaming/src/psychopy/MI_trials_lastrun.py',
+        originPath='/Users/lauridspedersen/git/electroencephalogaming/src/psychopy/MI_combinedtrials.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
@@ -306,16 +306,8 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     
     # Start Code - component code to be run after the window creation
     
-    # --- Initialize components for Routine "cross" ---
-    polygon = visual.ShapeStim(
-        win=win, name='polygon', vertices='cross',
-        size=(0.5, 0.5),
-        ori=0.0, pos=(0, 0), anchor='center',
-        lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
-        opacity=None, depth=-1.0, interpolate=True)
-    
-    # --- Initialize components for Routine "arrow" ---
-    # Run 'Begin Experiment' code from arrow_code
+    # --- Initialize components for Routine "trial" ---
+    # Run 'Begin Experiment' code from trial_code
     assert  int(expInfo['trials']) % 3 == 0, "Expected a multiple of three"
     
     trialCount = int(expInfo['trials']) // 3
@@ -334,20 +326,27 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     markers = {'test' : [99], 'exit' : [86], 'cross' : [1], 'cue' : [2], 'arrow' : [3], 'wait' : [4]}
     
     # Test stream
-    for _ in range(5):
+    for _ in range(6):
         outlet.push_sample(markers['test'], time())
         core.wait(0.5)
-    arr = visual.ShapeStim(
-        win=win, name='arr', vertices='arrow',
+    cross = visual.ShapeStim(
+        win=win, name='cross', vertices='cross',
         size=(0.5, 0.5),
-        ori=1.0, pos=(0, 0), anchor='center',
+        ori=0.0, pos=(0, 0), anchor='center',
         lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
         opacity=None, depth=-1.0, interpolate=True)
+    # Set experiment start values for variable component marker
+    marker = 'test'
+    markerContainer = []
     cue = sound.Sound('A', secs=1.0, stereo=True, hamming=True,
         name='cue')
     cue.setVolume(1.0)
-    
-    # --- Initialize components for Routine "wait" ---
+    arrow = visual.ShapeStim(
+        win=win, name='arrow', vertices='arrow',
+        size=(0.5, 0.5),
+        ori=1.0, pos=(0, 0), anchor='center',
+        lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
+        opacity=None, depth=-4.0, interpolate=True)
     
     # create some handy timers
     if globalClock is None:
@@ -389,117 +388,17 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             for paramName in thisTrial:
                 globals()[paramName] = thisTrial[paramName]
         
-        # --- Prepare to start Routine "cross" ---
+        # --- Prepare to start Routine "trial" ---
         continueRoutine = True
         # update component parameters for each repeat
-        thisExp.addData('cross.started', globalClock.getTime())
-        # Run 'Begin Routine' code from cross_code
-        outlet.push_sample(markers['cross'], time())
-        # keep track of which components have finished
-        crossComponents = [polygon]
-        for thisComponent in crossComponents:
-            thisComponent.tStart = None
-            thisComponent.tStop = None
-            thisComponent.tStartRefresh = None
-            thisComponent.tStopRefresh = None
-            if hasattr(thisComponent, 'status'):
-                thisComponent.status = NOT_STARTED
-        # reset timers
-        t = 0
-        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-        frameN = -1
-        
-        # --- Run Routine "cross" ---
-        routineForceEnded = not continueRoutine
-        while continueRoutine and routineTimer.getTime() < 3.0:
-            # get current time
-            t = routineTimer.getTime()
-            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
-            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
-            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
-            # update/draw components on each frame
-            
-            # *polygon* updates
-            
-            # if polygon is starting this frame...
-            if polygon.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-                # keep track of start time/frame for later
-                polygon.frameNStart = frameN  # exact frame index
-                polygon.tStart = t  # local t and not account for scr refresh
-                polygon.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(polygon, 'tStartRefresh')  # time at next scr refresh
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'polygon.started')
-                # update status
-                polygon.status = STARTED
-                polygon.setAutoDraw(True)
-            
-            # if polygon is active this frame...
-            if polygon.status == STARTED:
-                # update params
-                pass
-            
-            # if polygon is stopping this frame...
-            if polygon.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > polygon.tStartRefresh + 3.0-frameTolerance:
-                    # keep track of stop time/frame for later
-                    polygon.tStop = t  # not accounting for scr refresh
-                    polygon.frameNStop = frameN  # exact frame index
-                    # add timestamp to datafile
-                    thisExp.timestampOnFlip(win, 'polygon.stopped')
-                    # update status
-                    polygon.status = FINISHED
-                    polygon.setAutoDraw(False)
-            
-            # check for quit (typically the Esc key)
-            if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
-            if thisExp.status == FINISHED or endExpNow:
-                endExperiment(thisExp, inputs=inputs, win=win)
-                return
-            
-            # check if all components have finished
-            if not continueRoutine:  # a component has requested a forced-end of Routine
-                routineForceEnded = True
-                break
-            continueRoutine = False  # will revert to True if at least one component still running
-            for thisComponent in crossComponents:
-                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
-                    continueRoutine = True
-                    break  # at least one component has not yet finished
-            
-            # refresh the screen
-            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
-                win.flip()
-        
-        # --- Ending Routine "cross" ---
-        for thisComponent in crossComponents:
-            if hasattr(thisComponent, "setAutoDraw"):
-                thisComponent.setAutoDraw(False)
-        thisExp.addData('cross.stopped', globalClock.getTime())
-        # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-        if routineForceEnded:
-            routineTimer.reset()
-        else:
-            routineTimer.addTime(-3.000000)
-        
-        # --- Prepare to start Routine "arrow" ---
-        continueRoutine = True
-        # update component parameters for each repeat
-        thisExp.addData('arrow.started', globalClock.getTime())
-        # Run 'Begin Routine' code from arrow_code
-        direction = directions.pop()
-        
-        outlet.push_sample(markers['arrow'], time())
-        thisExp.addData("timeBeginRout", time())
-        arr.setOri(direction)
+        thisExp.addData('trial.started', globalClock.getTime())
         cue.setSound('A', secs=1.0, hamming=True)
         cue.setVolume(1.0, log=False)
         cue.seek(0)
+        arrow.setOri(direction)
         # keep track of which components have finished
-        arrowComponents = [arr, cue]
-        for thisComponent in arrowComponents:
+        trialComponents = [cross, cue, arrow]
+        for thisComponent in trialComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
             thisComponent.tStartRefresh = None
@@ -511,7 +410,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
         
-        # --- Run Routine "arrow" ---
+        # --- Run Routine "trial" ---
         routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
@@ -521,44 +420,49 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             # is it time to end the Routine? (based on local clock)
-            if tThisFlip > 5-frameTolerance:
+            if tThisFlip > 11-frameTolerance:
                 continueRoutine = False
+            # Run 'Each Frame' code from trial_code
+            outlet.push_sample(markers[marker], time())
             
-            # *arr* updates
+            # *cross* updates
             
-            # if arr is starting this frame...
-            if arr.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # if cross is starting this frame...
+            if cross.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
-                arr.frameNStart = frameN  # exact frame index
-                arr.tStart = t  # local t and not account for scr refresh
-                arr.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(arr, 'tStartRefresh')  # time at next scr refresh
+                cross.frameNStart = frameN  # exact frame index
+                cross.tStart = t  # local t and not account for scr refresh
+                cross.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(cross, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'arr.started')
+                thisExp.timestampOnFlip(win, 'cross.started')
                 # update status
-                arr.status = STARTED
-                arr.setAutoDraw(True)
+                cross.status = STARTED
+                cross.setAutoDraw(True)
             
-            # if arr is active this frame...
-            if arr.status == STARTED:
+            # if cross is active this frame...
+            if cross.status == STARTED:
                 # update params
                 pass
             
-            # if arr is stopping this frame...
-            if arr.status == STARTED:
+            # if cross is stopping this frame...
+            if cross.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > arr.tStartRefresh + random()+4-frameTolerance:
+                if tThisFlipGlobal > cross.tStartRefresh + 3-frameTolerance:
                     # keep track of stop time/frame for later
-                    arr.tStop = t  # not accounting for scr refresh
-                    arr.frameNStop = frameN  # exact frame index
+                    cross.tStop = t  # not accounting for scr refresh
+                    cross.frameNStop = frameN  # exact frame index
                     # add timestamp to datafile
-                    thisExp.timestampOnFlip(win, 'arr.stopped')
+                    thisExp.timestampOnFlip(win, 'cross.stopped')
                     # update status
-                    arr.status = FINISHED
-                    arr.setAutoDraw(False)
+                    cross.status = FINISHED
+                    cross.setAutoDraw(False)
+            if t >= 0 and t <= 3.0:
+                marker = 'cross'  # Set frame start values for marker
+                markerContainer.append(marker)  # Save frame values
             
             # if cue is starting this frame...
-            if cue.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            if cue.status == NOT_STARTED and tThisFlip >= 3-frameTolerance:
                 # keep track of start time/frame for later
                 cue.frameNStart = frameN  # exact frame index
                 cue.tStart = t  # local t and not account for scr refresh
@@ -587,6 +491,39 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             elif cue.isFinished:
                 cue.status = FINISHED
             
+            # *arrow* updates
+            
+            # if arrow is starting this frame...
+            if arrow.status == NOT_STARTED and tThisFlip >= 4-frameTolerance:
+                # keep track of start time/frame for later
+                arrow.frameNStart = frameN  # exact frame index
+                arrow.tStart = t  # local t and not account for scr refresh
+                arrow.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(arrow, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'arrow.started')
+                # update status
+                arrow.status = STARTED
+                arrow.setAutoDraw(True)
+            
+            # if arrow is active this frame...
+            if arrow.status == STARTED:
+                # update params
+                pass
+            
+            # if arrow is stopping this frame...
+            if arrow.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > arrow.tStartRefresh + random()+4-frameTolerance:
+                    # keep track of stop time/frame for later
+                    arrow.tStop = t  # not accounting for scr refresh
+                    arrow.frameNStop = frameN  # exact frame index
+                    # add timestamp to datafile
+                    thisExp.timestampOnFlip(win, 'arrow.stopped')
+                    # update status
+                    arrow.status = FINISHED
+                    arrow.setAutoDraw(False)
+            
             # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
                 thisExp.status = FINISHED
@@ -599,7 +536,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
                 routineForceEnded = True
                 break
             continueRoutine = False  # will revert to True if at least one component still running
-            for thisComponent in arrowComponents:
+            for thisComponent in trialComponents:
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
@@ -608,79 +545,15 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
         
-        # --- Ending Routine "arrow" ---
-        for thisComponent in arrowComponents:
+        # --- Ending Routine "trial" ---
+        for thisComponent in trialComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        thisExp.addData('arrow.stopped', globalClock.getTime())
+        thisExp.addData('trial.stopped', globalClock.getTime())
+        
         cue.pause()  # ensure sound has stopped at end of Routine
-        # the Routine "arrow" was not non-slip safe, so reset the non-slip timer
+        # the Routine "trial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
-        
-        # --- Prepare to start Routine "wait" ---
-        continueRoutine = True
-        # update component parameters for each repeat
-        thisExp.addData('wait.started', globalClock.getTime())
-        # Run 'Begin Routine' code from wait_code
-        outlet.push_sample(markers['wait'], time())
-        # keep track of which components have finished
-        waitComponents = []
-        for thisComponent in waitComponents:
-            thisComponent.tStart = None
-            thisComponent.tStop = None
-            thisComponent.tStartRefresh = None
-            thisComponent.tStopRefresh = None
-            if hasattr(thisComponent, 'status'):
-                thisComponent.status = NOT_STARTED
-        # reset timers
-        t = 0
-        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-        frameN = -1
-        
-        # --- Run Routine "wait" ---
-        routineForceEnded = not continueRoutine
-        while continueRoutine and routineTimer.getTime() < 3.0:
-            # get current time
-            t = routineTimer.getTime()
-            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
-            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
-            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
-            # update/draw components on each frame
-            # is it time to end the Routine? (based on local clock)
-            if tThisFlip > 3-frameTolerance:
-                continueRoutine = False
-            
-            # check for quit (typically the Esc key)
-            if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
-            if thisExp.status == FINISHED or endExpNow:
-                endExperiment(thisExp, inputs=inputs, win=win)
-                return
-            
-            # check if all components have finished
-            if not continueRoutine:  # a component has requested a forced-end of Routine
-                routineForceEnded = True
-                break
-            continueRoutine = False  # will revert to True if at least one component still running
-            for thisComponent in waitComponents:
-                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
-                    continueRoutine = True
-                    break  # at least one component has not yet finished
-            
-            # refresh the screen
-            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
-                win.flip()
-        
-        # --- Ending Routine "wait" ---
-        for thisComponent in waitComponents:
-            if hasattr(thisComponent, "setAutoDraw"):
-                thisComponent.setAutoDraw(False)
-        thisExp.addData('wait.stopped', globalClock.getTime())
-        # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-        if routineForceEnded:
-            routineTimer.reset()
-        else:
-            routineTimer.addTime(-3.000000)
         thisExp.nextEntry()
         
         if thisSession is not None:
@@ -688,8 +561,11 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             thisSession.sendExperimentData()
     # completed trialCount*3 repeats of 'trials'
     
-    # Run 'End Experiment' code from arrow_code
-    outlet.push_sample(markers['exit'], time())
+    # Run 'End Experiment' code from trial_code
+    for _ in range(6):
+        outlet.push_sample(markers['exit'], time())
+        core.wait(0.5)
+    
     
     # mark experiment as finished
     endExperiment(thisExp, win=win, inputs=inputs)
