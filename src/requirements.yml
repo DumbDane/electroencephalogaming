@@ -7,6 +7,10 @@ dependencies:
   - mne
   - psychopy
   - liblsl
+  - pandas
+  - pyarrow
+  - fastparquet
   - pip
   - pip:
     - moabb
+    - pylsl
