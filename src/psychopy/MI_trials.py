@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.2.3),
-    on Tue Mar 12 10:04:33 2024
+    on Tue Mar 12 09:45:35 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -18,7 +18,7 @@ from psychopy import plugins
 plugins.activatePlugins()
 prefs.hardware['audioLib'] = 'ptb'
 prefs.hardware['audioLatencyMode'] = '3'
-from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout
+from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout, parallel
 from psychopy.tools import environmenttools
 from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED,
                                 STOPPED, FINISHED, PRESSED, RELEASED, FOREVER, priority)
@@ -107,7 +107,7 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version='',
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='/Users/lauridspedersen/git/electroencephalogaming/src/psychopy/MI_trials_lastrun.py',
+        originPath='/Users/lauridspedersen/git/electroencephalogaming/src/psychopy/MI_trials.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
@@ -312,31 +312,22 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         size=(0.5, 0.5),
         ori=0.0, pos=(0, 0), anchor='center',
         lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
-        opacity=None, depth=-1.0, interpolate=True)
+        opacity=None, depth=0.0, interpolate=True)
     
     # --- Initialize components for Routine "arrow" ---
-    # Run 'Begin Experiment' code from arrow_code
+    # Run 'Begin Experiment' code from code
     assert  int(expInfo['trials']) % 3 == 0, "Expected a multiple of three"
     
     trialCount = int(expInfo['trials']) // 3
     directions = [0] * trialCount + [90] * trialCount + [270] * trialCount
     shuffle(directions)
     
-    from time import time
-    thisExp.addData("timeBeginExp", time())
+    import time
+    thisExp.addData("timeBeginExp", time.time())
     
     from pylsl import StreamOutlet, StreamInfo
     
-    info = StreamInfo(name="psychopy", type="Markers", channel_count=1, channel_format="int32", 
-                    source_id=f"session_{expInfo['session']}_participant_{expInfo['participant']}")
-    outlet = StreamOutlet(info)
-    
-    markers = {'test' : [99], 'exit' : [86], 'cross' : [1], 'cue' : [2], 'arrow' : [3], 'wait' : [4]}
-    
-    # Test stream
-    for _ in range(5):
-        outlet.push_sample(markers['test'], time())
-        core.wait(0.5)
+    info = StreamOutlet(name="psychopy", type="Markers", channel_count=1, channel_format="int32", source_id=f"experiment_{expInfo['"
     arr = visual.ShapeStim(
         win=win, name='arr', vertices='arrow',
         size=(0.5, 0.5),
@@ -393,8 +384,6 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         thisExp.addData('cross.started', globalClock.getTime())
-        # Run 'Begin Routine' code from cross_code
-        outlet.push_sample(markers['cross'], time())
         # keep track of which components have finished
         crossComponents = [polygon]
         for thisComponent in crossComponents:
@@ -488,11 +477,10 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         thisExp.addData('arrow.started', globalClock.getTime())
-        # Run 'Begin Routine' code from arrow_code
+        # Run 'Begin Routine' code from code
         direction = directions.pop()
         
-        outlet.push_sample(markers['arrow'], time())
-        thisExp.addData("timeBeginRout", time())
+        thisExp.addData("timeBeginRout", time.time())
         arr.setOri(direction)
         cue.setSound('A', secs=1.0, hamming=True)
         cue.setVolume(1.0, log=False)
@@ -621,8 +609,6 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         thisExp.addData('wait.started', globalClock.getTime())
-        # Run 'Begin Routine' code from wait_code
-        outlet.push_sample(markers['wait'], time())
         # keep track of which components have finished
         waitComponents = []
         for thisComponent in waitComponents:
@@ -688,8 +674,6 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             thisSession.sendExperimentData()
     # completed trialCount*3 repeats of 'trials'
     
-    # Run 'End Experiment' code from arrow_code
-    outlet.push_sample(markers['exit'], time())
     
     # mark experiment as finished
     endExperiment(thisExp, win=win, inputs=inputs)
