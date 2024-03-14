@@ -46,14 +46,15 @@ def training(inlet_eeg: StreamInlet, inlet_psypy: StreamInlet):
     seen180 = 0
     seen270 = 0
     initial_trained = False
+    num_trials = int(inlet_psypy.info().desc().child_value("num_trials"))
 
-    labels = np.empty((NUM_TRIALS))
-    c3_alpha = np.empty((NUM_TRIALS))
-    c3_beta = np.empty((NUM_TRIALS))
-    cz_alpha = np.empty((NUM_TRIALS))
-    cz_beta = np.empty((NUM_TRIALS))
-    c4_alpha = np.empty((NUM_TRIALS))
-    c4_beta = np.empty((NUM_TRIALS))
+    labels = np.empty((num_trials))
+    c3_alpha = np.empty((num_trials))
+    c3_beta = np.empty((num_trials))
+    cz_alpha = np.empty((num_trials))
+    cz_beta = np.empty((num_trials))
+    c4_alpha = np.empty((num_trials))
+    c4_beta = np.empty((num_trials))
 
     # TODO: figure out whether this needs to be separated by classes
     smpl_mean = {
@@ -129,11 +130,16 @@ def training(inlet_eeg: StreamInlet, inlet_psypy: StreamInlet):
 
         new_x, new_y = chunk_eeg, chunk_psypy
 
+        print(new_x)
+        # print(new_y)
+        continue
+
         new_features = get_features()
-        if is_outlier(new_features, smpl_mean, smpl_sd, new_y):
-            # TODO: does this make sense for the first ten?
-            print("this trial is an outlier and will not be considered")
-            continue
+        if num_samples_seen > 10:
+            if is_outlier(new_features, smpl_mean, smpl_sd, new_y):
+                # TODO: does this make sense for the first ten?
+                print("this trial is an outlier and will not be considered")
+                continue
         num_samples_seen += 1
         labels[num_samples_seen] = new_y
         match new_y:
@@ -171,6 +177,4 @@ def training(inlet_eeg: StreamInlet, inlet_psypy: StreamInlet):
 
 if __name__ == "__main__":
     inlet_eeg, inlet_psypy = getInletStreams()
-    global NUM_TRIALS
-    NUM_TRIALS = inlet_psypy.info().desc().child_value("num_trials")
     training(inlet_eeg, inlet_psypy)
