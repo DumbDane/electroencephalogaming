@@ -9,8 +9,10 @@ CLASSES = ["90", "180", "270"]
 
 
 def getInletStreams():
+    print("looking for EEG stream")
     streams_eeg = resolve_stream("type", "EEG")  # "name", "electroencephalogaming"
-    streams_psypy = resolve_stream("type", "Markers")
+    print("looking for psychopy stream")
+    streams_psypy = resolve_stream("source_id", "1991919")
 
     inlet_eeg = StreamInlet(streams_eeg[0])
     inlet_psypy = StreamInlet(streams_psypy[0])
@@ -130,8 +132,11 @@ def training(inlet_eeg: StreamInlet, inlet_psypy: StreamInlet):
 
         new_x, new_y = chunk_eeg, chunk_psypy
 
+        # if len(new_x) == 0 and len(new_y) == 0:
+        #     continue
         print(new_x)
         # print(new_y)
+        sleep(0.01)
         continue
 
         new_features = get_features()
