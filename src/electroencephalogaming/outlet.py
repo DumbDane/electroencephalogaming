@@ -13,9 +13,9 @@ def setup(args: argparse.Namespace) -> StreamOutlet:
 
     channel_names = ["participant_id", "start_timestamp_local", "timestamp_local"]
     info = StreamInfo(
-        name="electroencephalogaming",
         type=args.type,
-        channel_count=13,
+        name="electroencephalogaming",
+        channel_count=args.channel_count,
         nominal_srate=100,
         channel_format="double64",
         source_id=f"electroencephalogaming_{participant_id}",
@@ -56,7 +56,7 @@ def setup(args: argparse.Namespace) -> StreamOutlet:
 
 
 def get_chunk_from_eeg() -> tuple[np.ndarray, float]:
-    return rand(13, 1), time.time()
+    return np.concatenate((rand(12, 1), np.array([[time.time()]])), axis=0) , time.time()
     ...  # TODO
 
 
@@ -76,7 +76,7 @@ def main(args: list[str, Any]) -> None:
     parser.add_argument(
         "-s", "--srate", type=int, default=100, help="Nominal sendrate of EEG (Hz)"
     )
-    # parser.add_argument("-c", "--channel_count", type=int, default=13, help="Number of channels for current recording")
+    parser.add_argument("-c", "--channel_count", type=int, default=8+5, help="Number of channels for current recording")
 
     args, unk = parser.parse_known_args()
     outlet = setup(args)
@@ -84,13 +84,15 @@ def main(args: list[str, Any]) -> None:
 
     print("now sending data...")
     while True:
-        for trial in X:
-            for j, _ in enumerate(trial[0]):
-                push(outlet, *get_chunk_from_eeg())
-                # push(outlet, trial[:, j], time.time())
-                # data_chunk, stamp = get_chunk_from_eeg()
-                # time.sleep(1)
-        break
+        # for trial in X:
+        #     for j, _ in enumerate(trial[0]):
+        #         push(outlet, *get_chunk_from_eeg())
+        #         # push(outlet, trial[:, j], time.time())
+        # break
+        data_chunk, stamp = get_chunk_from_eeg()
+        push(outlet, data_chunk, stamp)
+        print(data_chunk)
+        time.sleep(.1)
 
 
 if __name__ == "__main__":
