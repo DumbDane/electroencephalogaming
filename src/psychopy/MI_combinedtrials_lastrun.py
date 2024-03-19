@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.2.3),
-    on Thu Mar 14 11:27:05 2024
+    on Tue Mar 19 13:21:23 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -107,7 +107,7 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version='',
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='/Users/chrisaftzidis/git/electroencephalogaming/src/psychopy/MI_combinedtrials_lastrun.py',
+        originPath='/Users/lauridspedersen/git/electroencephalogaming/src/psychopy/MI_combinedtrials_lastrun.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
@@ -158,7 +158,7 @@ def setupWindow(expInfo=None, win=None):
     if win is None:
         # if not given a window to setup, make one
         win = visual.Window(
-            size=[200, 100], fullscr=False, screen=0,
+            size=[600, 300], fullscr=False, screen=0,
             winType='pyglet', allowStencil=False,
             monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
             backgroundImage='', backgroundFit='none',
@@ -321,19 +321,19 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     
     from pylsl import StreamOutlet, StreamInfo
     
-    info = StreamInfo(name="psychopy", type="Markers", channel_count=1, channel_format="int32", 
-                    source_id=f"session_{expInfo['session']}_participant_{expInfo['participant']}")
+    info = StreamInfo(name="psychopy", type="Markers", channel_count=2, source_id="1991919")
+                    #source_id=f"session_{expInfo['session']}_participant_{expInfo['participant']}")
     info.desc().append_child_value("participant_id", f"{expInfo['participant']}")
     info.desc().append_child_value("session_id", f"{expInfo['session']}")
     info.desc().append_child_value("num_trials", f"{expInfo['trials']}")
     info.desc().append_child_value("total_trials", str(len(directions)))
     outlet = StreamOutlet(info)
     
-    markers = {'test' : [99], 'exit' : [86], 'cross' : [1], 'cue' : [2], 'arrow' : [3], 'blank' : [4]}
+    markers = {'test' : 99, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}
     
     # Test the stream
     for _ in range(6):
-        outlet.push_sample(markers['test'], time())
+        outlet.push_sample([markers['test'], markers['test']], time())
         core.wait(0.5)
         
     cross = visual.ShapeStim(
@@ -406,7 +406,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         # Run 'Begin Routine' code from trial_code
         direction = directions.pop()
         
-        outlet.push_sample([direction], time())
+        outlet.push_sample([direction, direction], time())
         thisExp.addData("timeBeginRout", time())
         cue.setSound('A', secs=1.0, hamming=True)
         cue.setVolume(1.0, log=False)
@@ -442,13 +442,13 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             
             if cross.status == STARTED and cue.status != STARTED:
-                outlet.push_sample(markers['cross'], time())
+                outlet.push_sample([markers['cross'], direction], time())
             elif cue.status == STARTED:
-                outlet.push_sample(markers['cue'], time())
+                outlet.push_sample([markers['cue'], direction], time())
             elif arrow.status == STARTED:
-                outlet.push_sample(markers['arrow'], time())
+                outlet.push_sample([markers['arrow'], direction], time())
             else:
-                outlet.push_sample(markers['blank'], time())
+                outlet.push_sample([markers['blank'], direction], time())
              
             
             # *cross* updates
@@ -618,7 +618,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     
     # Run 'End Experiment' code from trial_code
     for _ in range(6):
-        outlet.push_sample(markers['exit'], time())
+        outlet.push_sample([markers['exit'], markers['exit']], time())
         core.wait(0.5)
     
     # mark experiment as finished
