@@ -56,7 +56,7 @@ def setup(args: argparse.Namespace) -> StreamOutlet:
 
 
 def get_chunk_from_eeg() -> tuple[np.ndarray, float]:
-    return np.concatenate((rand(12, 1), np.array([[time.time()]])), axis=0) , time.time()
+    return np.concatenate((rand(12, 1), np.array([[time.time()]])), axis=0), time.time()
     ...  # TODO
 
 
@@ -68,7 +68,12 @@ def main(args: list[str, Any]) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--type", type=str, default="EEG", help="Type of stream")
     parser.add_argument(
-        "-id", "--participant_id", type=int, required=True, help="ID of participant"
+        "-id",
+        "--participant_id",
+        type=int,
+        required=False,
+        default=1,
+        help="ID of participant",
     )
     parser.add_argument(
         "--cap_name", type=str, default="Enobio 8", help="Name of EEG cap being used"
@@ -76,11 +81,17 @@ def main(args: list[str, Any]) -> None:
     parser.add_argument(
         "-s", "--srate", type=int, default=100, help="Nominal sendrate of EEG (Hz)"
     )
-    parser.add_argument("-c", "--channel_count", type=int, default=8+5, help="Number of channels for current recording")
+    parser.add_argument(
+        "-c",
+        "--channel_count",
+        type=int,
+        default=8 + 5,
+        help="Number of channels for current recording",
+    )
 
     args, unk = parser.parse_known_args()
     outlet = setup(args)
-    X, labels, meta = MotorImagery().get_data(dataset=BNCI2015_001(), subjects=[1])
+    # X, labels, meta = MotorImagery().get_data(dataset=BNCI2015_001(), subjects=[1])
 
     print("now sending data...")
     while True:
@@ -92,7 +103,7 @@ def main(args: list[str, Any]) -> None:
         data_chunk, stamp = get_chunk_from_eeg()
         push(outlet, data_chunk, stamp)
         print(data_chunk)
-        time.sleep(.1)
+        time.sleep(0.1)
 
 
 if __name__ == "__main__":

@@ -4,16 +4,26 @@ import pandas as pd
 import numpy as np
 from glob import glob
 
-streams = resolve_stream("type", "EEG") #"name", "electroencephalogaming"
+streams = resolve_stream("type", "EEG")  # "name", "electroencephalogaming"
 
-inlet = StreamInlet(streams[0])
+
+[inlet] = StreamInlet(streams)
 # participant: str = inlet.info().desc().child_value("participant_id")
 # session: str = inlet.info().desc().child_value("session_id")
 # num_trials: str = inlet.info().desc().child_value("num_trials")
 # total_trials: str = inlet.info().desc().child_value("total_trials")
 # df = pd.DataFrame(columns=[f"Sensor{i}" for i in range(8)])
 
-setup1 = ["C1", "C2", "C3", "C4", "FC1", "CZ",'FC2', 'PZ',] #'ax', 'az', 'ay', 'flags', 'ux']
+setup1 = [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "FC1",
+    "CZ",
+    "FC2",
+    "PZ",
+]  #'ax', 'az', 'ay', 'flags', 'ux']
 
 
 df = pd.DataFrame(columns=setup1)
@@ -32,13 +42,12 @@ while True:
         tmp.dropna(inplace=True)
         df = pd.concat([df, tmp])
         print(df.tail())
-    
+
     except KeyboardInterrupt:
-        id = len(glob('eeg_data/*')) // 2
+        id = len(glob("eeg_data/*")) // 2
         df.to_parquet(f"eeg_data/fakedata{id}.pq")
         df.to_csv(f"eeg_data/fakedata{id}.csv")
         raise KeyboardInterrupt
-    
+
     except Exception as e:
         raise Exception from e
-    

@@ -3,7 +3,7 @@
 ## Important
 - [x] Write e-mail to FM for access to 5th floor @DR (CC Paolo)
 - [x] Make presentation on MOABB and how we can use it in our project.
-- [ ] **Get the headset on**
+- [x] **Get the headset on**
 - [ ] Enobio 8 API / Data collection script
 - [ ] LDA Classifier (Online?)
 
