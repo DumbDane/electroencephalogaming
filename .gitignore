@@ -170,5 +170,5 @@ cython_debug/
 **/Icon?
 
 # Data
-**/psychopy/data/*
+*data
 
