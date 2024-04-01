@@ -1,0 +1,40 @@
+# This configures actions which occur during "git commit ..."
+# Install by running "python -m pre-commit install"
+
+repos:
+# General pre-commits
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+    - id: check-added-large-files # Don't bloat git history
+      args: ['--maxkb=500']
+    - id: check-toml
+    - id: check-json
+    - id: mixed-line-ending
+      args: [--fix=lf]
+      files: '.*.sh'
+#    - id: no-commit-to-branch
+#      args: [--branch, main]
+
+# Ruff formatter
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.2.1
+  hooks:
+    - id: ruff
+    - id: ruff-format
+
+# Jupyter notebooks
+- repo: https://github.com/kynan/nbstripout
+  rev: 0.7.1
+  hooks:
+    - id: nbstripout
+      name: Remove output from notebooks
+
+# Poetry
+#- repo: https://github.com/python-poetry/poetry
+#  rev: 1.8.0
+#  hooks:
+#    - id: poetry-lock
+#      args: [--no-update]
+#      verbose: true
+#    - id: poetry-install
