@@ -4,17 +4,17 @@ import time
 from numpy.random import rand
 import numpy as np
 import argparse
-from moabb.datasets import BNCI2015_001
-from moabb.paradigms import MotorImagery
+# from moabb.datasets import BNCI2015_001
+# from moabb.paradigms import MotorImagery
 
 
 def setup(args: argparse.Namespace) -> StreamOutlet:
     participant_id = args.participant_id
 
-    channel_names = ["participant_id", "start_timestamp_local", "timestamp_local"]
+    # channel_names = ["participant_id", "start_timestamp_local", "timestamp_local"]
     info = StreamInfo(
-        type=args.type,
         name="electroencephalogaming",
+        type=args.type,
         channel_count=args.channel_count,
         nominal_srate=100,
         channel_format="double64",
@@ -39,7 +39,7 @@ def setup(args: argparse.Namespace) -> StreamOutlet:
         "FC4",
         "CP4",
         "C6",
-    ]:  # TODO: figure out if order matters
+    ]:  # figure out if order matters # Doesn't if we don't use the script other than testing
         ch = chns.append_child("channel")
         ch.append_child_value("label", label)
         ch.append_child_value("unit", "microvolts")
@@ -51,12 +51,13 @@ def setup(args: argparse.Namespace) -> StreamOutlet:
     cap.append_child_value("size", "54")
     cap.append_child_value("labelscheme", "10-20")
 
+    print(info.as_xml())
     outlet = StreamOutlet(info)
     return outlet
 
 
 def get_chunk_from_eeg() -> tuple[np.ndarray, float]:
-    return np.concatenate((rand(12, 1), np.array([[time.time()]])), axis=0), time.time()
+    return rand(8, 1), time.monotonic()
     ...  # TODO
 
 
@@ -85,11 +86,11 @@ def main(args: list[str, Any]) -> None:
         "-c",
         "--channel_count",
         type=int,
-        default=8 + 5,
+        default=8,
         help="Number of channels for current recording",
     )
 
-    args, unk = parser.parse_known_args()
+    args, _ = parser.parse_known_args()
     outlet = setup(args)
     # X, labels, meta = MotorImagery().get_data(dataset=BNCI2015_001(), subjects=[1])
 
@@ -102,8 +103,8 @@ def main(args: list[str, Any]) -> None:
         # break
         data_chunk, stamp = get_chunk_from_eeg()
         push(outlet, data_chunk, stamp)
-        print(data_chunk)
-        time.sleep(0.1)
+        print("\r", len(data_chunk), end="")
+        time.sleep(1 / 500)
 
 
 if __name__ == "__main__":
