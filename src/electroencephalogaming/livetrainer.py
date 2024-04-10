@@ -31,16 +31,11 @@ class LiveTrainer:
         self.mt = mt
         self.uxt = uxt
         self.ttrials = ttrials
+        self.fitted = False
 
         # TODO: figure out whether this needs to be separated by classes
-        self.smpl_mean = {
-            direction: {feature: 0 for feature in self.features}
-            for direction in self.classes
-        }
-        self.smpl_sd = {
-            direction: {feature: 0 for feature in self.features}
-            for direction in self.classes
-        }
+        self.smpl_mean = {direction: {feature: 0 for feature in self.features} for direction in self.classes}
+        self.smpl_sd = {direction: {feature: 0 for feature in self.features} for direction in self.classes}
 
     def is_outlier(self, new_features, y):
         for i, ft_name in enumerate(self.features):
@@ -61,11 +56,14 @@ class LiveTrainer:
 
     # should return a np.array of shape 6, with numbers that are voltages
     def get_features():
+        # (calc_psd (8,90) -> band powers (8, 2)) | bandpass filter (1, 40) somewhere -> raw data -> common spatial patterns n?=4 -> fit
         ...  # TODO how do we get individual features, can we maybe just read them out from the og data, remember to average over timeframe
+
+        # We still don't have any features but do maybe know how to get them
+        # I don't know how to make the training actually real time. Like predicting realtime.
 
     def fit(self, df: DataFrame, samples_seen: int) -> None:
         seen90, seen180, seen270 = df["direction"].value_counts().sort_index()
-        initial_trained = False
 
         labels = np.empty((self.ttrials))  # directions
         c3_alpha = np.empty((self.ttrials))
@@ -93,7 +91,7 @@ class LiveTrainer:
         print(new_y)
         new_features = self.get_features()
         if samples_seen > 10:
-            if self.is_outlier(new_features, smpl_mean, smpl_sd, new_y):  # noqa
+            if self.is_outlier(new_features, new_y):  # noqa
                 # TODO: does this make sense for the first ten?
                 print("this trial is an outlier and will not be considered")
                 return
@@ -107,11 +105,11 @@ class LiveTrainer:
             labels,
         )  # noqa
 
-        if not initial_trained:
+        if not self.fitted:
             if all([seen90, seen180, seen270]) > 10:
                 # clf = LinearDiscriminantAnalysis()
                 self.clf.fit(features.T, labels)
-                initial_trained = True
+                # initial_trained = True
         else:
             # TODO: add a selection process that gets the best x value
             pred_y = self.clf.predict(new_x)  # noqa

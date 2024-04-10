@@ -17,3 +17,7 @@ pandas = ">=1.5, <2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+exclude = ["src/psychopy"]
+line-length = 128

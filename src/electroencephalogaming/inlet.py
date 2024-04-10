@@ -1,11 +1,12 @@
-from time import sleep, monotonic, time
+from time import monotonic, time  # , sleep
 from pylsl import StreamInlet, resolve_stream
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+
+# from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 import numpy as np
 import pandas as pd
 from glob import glob
 from argparse import ArgumentParser
-from livetrainer import LiveTrainer
+# from livetrainer import LiveTrainer
 
 CHANNELS = ["C1", "C2", "C3", "C4", "FC1", "CZ", "FC2", "PZ"]
 FEATURE_NAMES = ["c3_alpha", "c3_beta", "cz_alpha", "cz_beta", "c4_alpha", "c4_beta"]
@@ -29,20 +30,18 @@ def get_inlet_streams():
     return inlet_eeg, inlet_psypy
 
 
-def pull_df(eeg: StreamInlet, psypy: StreamInlet, mt: float, ut: float) -> pd.DataFrame:
+def pull_df(eeg: StreamInlet, psypy: StreamInlet, mt: float, uxt: float) -> pd.DataFrame:
     """Pulls chunks from two streams, merging them into one dataframe with ffilled values"""
 
     echunk, etimestamps = eeg.pull_chunk()
     pchunk, ptimestamps = psypy.pull_chunk()
 
     # Since enobio 8 uses machine uptime for timestamps, we convert to unix manually
-    etimestamps = np.array(etimestamps) + ut - mt
+    etimestamps = np.array(etimestamps) + uxt - mt
 
     etmp = pd.DataFrame(index=etimestamps, data=echunk, columns=CHANNELS)
     ptmp = pd.DataFrame(index=ptimestamps, data=pchunk, columns=MARKERS)
-    tmp = etmp.merge(
-        ptmp, left_index=True, right_index=True, how="outer"
-    ).ffill()  # Replaces nan values with previous row
+    tmp = etmp.merge(ptmp, left_index=True, right_index=True, how="outer").ffill()  # Replaces nan values with previous row
 
     return tmp
 
@@ -51,21 +50,28 @@ def main(pid: str) -> None:
     ieeg, ipsypy = get_inlet_streams()
     # Used when converting enobio timestamps to unix timestamps
     mt, uxt = monotonic(), time()
-    num_trials = int(ipsypy.info().desc().child_value("num_trials"))
+    # num_trials = int(ipsypy.info().desc().child_value("num_trials"))
     df = pd.DataFrame(columns=CHANNELS + MARKERS)
-    lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
+    # lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
 
+    print("now receiving data...")
+    acc = 0
     while True:
         try:
             # EEG uses
-            print("now receiving data...")
-            tmp = pull_df(ieeg, ipsypy, mt)
+            tmp = pull_df(ieeg, ipsypy, mt, uxt)
             df = pd.concat([df, tmp])
-            seen = df[df.shift()["direction"] != df["direction"]].count()
+            # seen = df[df["direction"] == df["markers"]].shape[0]
+            # print(f"\r{seen}", end="")
 
-            lt.fit(df.copy()[df["markers"] == 3], seen)
+            # lt.fit(df.copy()[df["markers"] == 3], seen)
 
-            sleep(1)
+            if acc % 1000 == 0:
+                id = len(glob("eeg_data/*")) // 2
+                df.to_parquet(f"eeg_data/{pid}{id}.pq")
+                df.to_csv(f"eeg_data/{pid}{id}.csv")
+                acc = 0
+            acc += 1
 
         except Exception as e:
             id = len(glob("eeg_data/*")) // 2
