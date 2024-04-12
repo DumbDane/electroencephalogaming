@@ -1,13 +1,11 @@
-from time import sleep
 from pylsl import StreamInlet, resolve_stream
 import pandas as pd
-import numpy as np
 from glob import glob
 
-streams = resolve_stream("type", "EEG")  # "name", "electroencephalogaming"
+[streams] = resolve_stream("type", "EEG")  # "name", "electroencephalogaming"
 
 
-[inlet] = StreamInlet(streams)
+inlet = StreamInlet(streams)
 # participant: str = inlet.info().desc().child_value("participant_id")
 # session: str = inlet.info().desc().child_value("session_id")
 # num_trials: str = inlet.info().desc().child_value("num_trials")

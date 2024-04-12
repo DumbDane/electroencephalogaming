@@ -25,7 +25,7 @@ def get_inlet_streams():
     print("looking for psychopy stream")
     [streams_psypy] = resolve_stream("source_id", "1991919")
     inlet_psypy = StreamInlet(streams_psypy)
-    print("found EEG stream")
+    print("found psychopy stream")
 
     return inlet_eeg, inlet_psypy
 
@@ -41,49 +41,57 @@ def pull_df(eeg: StreamInlet, psypy: StreamInlet, mt: float, uxt: float) -> pd.D
 
     etmp = pd.DataFrame(index=etimestamps, data=echunk, columns=CHANNELS)
     ptmp = pd.DataFrame(index=ptimestamps, data=pchunk, columns=MARKERS)
-    tmp = etmp.merge(ptmp, left_index=True, right_index=True, how="outer").ffill()  # Replaces nan values with previous row
+    tmp = etmp.merge(ptmp, left_index=True, right_index=True, how="outer")  # .ffill()  # Replaces nan values with previous row
 
     return tmp
 
 
 def main(pid: str) -> None:
+    id = len(glob("eeg_data/*")) // 2
+
+    def save():
+        df.to_parquet(f"eeg_data/{pid}{id}.pq")
+        df.to_csv(f"eeg_data/{pid}{id}.csv")
+
     ieeg, ipsypy = get_inlet_streams()
+    # pid = int(ipsypy.info().desc().child_value("participant_id"))
     # Used when converting enobio timestamps to unix timestamps
     mt, uxt = monotonic(), time()
     # num_trials = int(ipsypy.info().desc().child_value("num_trials"))
-    df = pd.DataFrame(columns=CHANNELS + MARKERS)
-    # lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
 
+    # lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
+    df = pd.DataFrame(columns=CHANNELS + MARKERS)
     print("now receiving data...")
     acc = 0
     while True:
         try:
             # EEG uses
             tmp = pull_df(ieeg, ipsypy, mt, uxt)
-            df = pd.concat([df, tmp])
+            if not tmp.empty:
+                df = pd.concat([df, tmp])  # .ffill()
+
             # seen = df[df["direction"] == df["markers"]].shape[0]
+            df = df.ffill()
             # print(f"\r{seen}", end="")
 
             # lt.fit(df.copy()[df["markers"] == 3], seen)
 
-            if acc % 1000 == 0:
-                id = len(glob("eeg_data/*")) // 2
+            if acc % 20000 == 0:
                 df.to_parquet(f"eeg_data/{pid}{id}.pq")
                 df.to_csv(f"eeg_data/{pid}{id}.csv")
                 acc = 0
             acc += 1
+            if 86 in df["markers"]:
+                save(df)
+                exit(0)
 
         except Exception as e:
-            id = len(glob("eeg_data/*")) // 2
-            df.to_parquet(f"eeg_data/{pid}{id}.pq")
-            df.to_csv(f"eeg_data/{pid}{id}.csv")
-
             raise Exception from e
 
 
 if __name__ == "__main__":
     argparser = ArgumentParser()
-    argparser.add_argument("--participant", "-p", required=True, type=str)
+    argparser.add_argument("--participant", "-p", required=True, type=str, help="lab rat id")
     args, unk = argparser.parse_known_args()
 
     main(args.participant)
