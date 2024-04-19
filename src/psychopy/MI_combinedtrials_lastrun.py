@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.2.3),
-    on Wed Apr 10 12:37:28 2024
+    on Tue Apr 16 12:14:56 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -158,7 +158,7 @@ def setupWindow(expInfo=None, win=None):
     if win is None:
         # if not given a window to setup, make one
         win = visual.Window(
-            size=[1512, 982], fullscr=True, screen=0,
+            size=[600, 300], fullscr=False, screen=0,
             winType='pyglet', allowStencil=False,
             monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
             backgroundImage='', backgroundFit='none',
@@ -175,7 +175,7 @@ def setupWindow(expInfo=None, win=None):
         win.backgroundImage = ''
         win.backgroundFit = 'none'
         win.units = 'height'
-    win.mouseVisible = False
+    win.mouseVisible = True
     win.hideMessage()
     return win
 
@@ -329,11 +329,11 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     info.desc().append_child_value("total_trials", str(len(directions)))
     outlet = StreamOutlet(info)
     
-    markers = {'test' : 99, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}
+    markers = {'test' : -1, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}
     
     # Test the stream
     for _ in range(6):
-        outlet.push_sample([markers['test'], markers['test']], time())
+        outlet.push_sample([markers['test'], markers['blank']], time())
         core.wait(0.5)
         
     cross = visual.ShapeStim(
@@ -617,9 +617,9 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     # completed trialCount*3 repeats of 'trials'
     
     # Run 'End Experiment' code from trial_code
-    for _ in range(6):
-        outlet.push_sample([markers['exit'], markers['exit']], time())
-        core.wait(0.5)
+    for _ in range(200):
+        outlet.push_sample([markers['exit'], markers['blank']], time())
+    
     
     # mark experiment as finished
     endExperiment(thisExp, win=win, inputs=inputs)

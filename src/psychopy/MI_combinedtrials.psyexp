@@ -10,7 +10,7 @@
     <Param val="" valType="str" updates="None" name="End Message"/>
     <Param val="{'participant': 'f&quot;{randint(0, 999999):06.0f}&quot;', 'session': '001', 'trials': '6'}" valType="code" updates="None" name="Experiment info"/>
     <Param val="True" valType="bool" updates="None" name="Force stereo"/>
-    <Param val="True" valType="bool" updates="None" name="Full-screen window"/>
+    <Param val="False" valType="bool" updates="None" name="Full-screen window"/>
     <Param val="" valType="str" updates="None" name="HTML path"/>
     <Param val="" valType="str" updates="None" name="Incomplete URL"/>
     <Param val="testMonitor" valType="str" updates="None" name="Monitor"/>
@@ -26,7 +26,7 @@
     <Param val="False" valType="bool" updates="None" name="Show mouse"/>
     <Param val="height" valType="str" updates="None" name="Units"/>
     <Param val="" valType="str" updates="None" name="Use version"/>
-    <Param val="[1512, 982]" valType="list" updates="None" name="Window size (pixels)"/>
+    <Param val="600, 300" valType="list" updates="None" name="Window size (pixels)"/>
     <Param val="none" valType="str" updates="None" name="backgroundFit"/>
     <Param val="" valType="str" updates="None" name="backgroundImg"/>
     <Param val="avg" valType="str" updates="None" name="blendMode"/>
@@ -92,14 +92,14 @@
       <CodeComponent name="trial_code" plugin="None">
         <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
-        <Param val="#assert  int(expInfo['trials']) % 3 == 0, &quot;Expected a multiple of three&quot;&amp;#10;&amp;#10;trialCount = int(expInfo['trials'])# // 3&amp;#10;first =  [90] * max(0, trialCount-10) + [180] * max(0, trialCount-10) + [270] * max(0, trialCount-10)&amp;#10;last  =  [90] * min(10, trialCount) + [180] * min(10, trialCount) + [270] * min(10, trialCount)&amp;#10;shuffle(first), shuffle(last) # from random import shuffle&amp;#10;directions = first + last&amp;#10;&amp;#10;from time import time&amp;#10;thisExp.addData(&quot;timeBeginExp&quot;, time())&amp;#10;&amp;#10;from pylsl import StreamOutlet, StreamInfo&amp;#10;&amp;#10;info = StreamInfo(name=&quot;psychopy&quot;, type=&quot;Markers&quot;, channel_count=2, source_id=&quot;1991919&quot;)&amp;#10;                #source_id=f&quot;session_{expInfo['session']}_participant_{expInfo['participant']}&quot;)&amp;#10;info.desc().append_child_value(&quot;participant_id&quot;, f&quot;{expInfo['participant']}&quot;)&amp;#10;info.desc().append_child_value(&quot;session_id&quot;, f&quot;{expInfo['session']}&quot;)&amp;#10;info.desc().append_child_value(&quot;num_trials&quot;, f&quot;{expInfo['trials']}&quot;)&amp;#10;info.desc().append_child_value(&quot;total_trials&quot;, str(len(directions)))&amp;#10;outlet = StreamOutlet(info)&amp;#10;&amp;#10;markers = {'test' : 99, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}&amp;#10;&amp;#10;# Test the stream&amp;#10;for _ in range(6):&amp;#10;    outlet.push_sample([markers['test'], markers['test']], time())&amp;#10;    core.wait(0.5)&amp;#10;    " valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="#assert  int(expInfo['trials']) % 3 == 0, &quot;Expected a multiple of three&quot;&amp;#10;&amp;#10;trialCount = int(expInfo['trials'])# // 3&amp;#10;first =  [90] * max(0, trialCount-10) + [180] * max(0, trialCount-10) + [270] * max(0, trialCount-10)&amp;#10;last  =  [90] * min(10, trialCount) + [180] * min(10, trialCount) + [270] * min(10, trialCount)&amp;#10;shuffle(first), shuffle(last) # from random import shuffle&amp;#10;directions = first + last&amp;#10;&amp;#10;from time import time&amp;#10;thisExp.addData(&quot;timeBeginExp&quot;, time())&amp;#10;&amp;#10;from pylsl import StreamOutlet, StreamInfo&amp;#10;&amp;#10;info = StreamInfo(name=&quot;psychopy&quot;, type=&quot;Markers&quot;, channel_count=2, source_id=&quot;1991919&quot;)&amp;#10;                #source_id=f&quot;session_{expInfo['session']}_participant_{expInfo['participant']}&quot;)&amp;#10;info.desc().append_child_value(&quot;participant_id&quot;, f&quot;{expInfo['participant']}&quot;)&amp;#10;info.desc().append_child_value(&quot;session_id&quot;, f&quot;{expInfo['session']}&quot;)&amp;#10;info.desc().append_child_value(&quot;num_trials&quot;, f&quot;{expInfo['trials']}&quot;)&amp;#10;info.desc().append_child_value(&quot;total_trials&quot;, str(len(directions)))&amp;#10;outlet = StreamOutlet(info)&amp;#10;&amp;#10;markers = {'test' : -1, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}&amp;#10;&amp;#10;# Test the stream&amp;#10;for _ in range(6):&amp;#10;    outlet.push_sample([markers['test'], markers['blank']], time())&amp;#10;    core.wait(0.5)&amp;#10;    " valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="direction = directions.pop()&amp;#10;&amp;#10;outlet.push_sample([direction, direction], time())&amp;#10;thisExp.addData(&quot;timeBeginRout&quot;, time())" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
         <Param val="&amp;#10;&amp;#10;if cross.status == STARTED and cue.status != STARTED:&amp;#10;    outlet.push_sample([markers['cross'], direction], time())&amp;#10;elif cue.status == STARTED:&amp;#10;    outlet.push_sample([markers['cue'], direction], time())&amp;#10;elif arrow.status == STARTED:&amp;#10;    outlet.push_sample([markers['arrow'], direction], time())&amp;#10;else:&amp;#10;    outlet.push_sample([markers['blank'], direction], time())&amp;#10; " valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
-        <Param val="for _ in range(6):&amp;#10;    outlet.push_sample([markers['exit'], markers['exit']], time())&amp;#10;    core.wait(0.5)" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="for _ in range(200):&amp;#10;    outlet.push_sample([markers['exit'], markers['blank']], time())&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>

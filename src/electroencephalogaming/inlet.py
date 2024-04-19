@@ -1,17 +1,20 @@
 from time import monotonic, time  # , sleep
 from pylsl import StreamInlet, resolve_stream
 
-# from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 import numpy as np
 import pandas as pd
 from glob import glob
 from argparse import ArgumentParser
 # from livetrainer import LiveTrainer
 
+from warnings import simplefilter
+
+simplefilter(action="ignore", category=FutureWarning)
+
 CHANNELS = ["C1", "C2", "C3", "C4", "FC1", "CZ", "FC2", "PZ"]
 FEATURE_NAMES = ["c3_alpha", "c3_beta", "cz_alpha", "cz_beta", "c4_alpha", "c4_beta"]
 
-# {'test' : 99, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}
+# {'test' : -1, 'exit' : 86, 'cross' : 1, 'cue' : 2, 'arrow' : 3, 'blank' : 4}
 MARKERS = ["markers", "direction"]
 CLASSES = ["90", "180", "270"]
 
@@ -50,42 +53,44 @@ def main(pid: str) -> None:
     id = len(glob("eeg_data/*")) // 2
 
     def save():
-        df.to_parquet(f"eeg_data/{pid}{id}.pq")
-        df.to_csv(f"eeg_data/{pid}{id}.csv")
+        df.to_parquet(f"eeg_data/{pid}-{id}.pq")
+        df.to_csv(f"eeg_data/{pid}-{id}.csv")
 
     ieeg, ipsypy = get_inlet_streams()
     # pid = int(ipsypy.info().desc().child_value("participant_id"))
-    # Used when converting enobio timestamps to unix timestamps
-    mt, uxt = monotonic(), time()
     # num_trials = int(ipsypy.info().desc().child_value("num_trials"))
 
-    # lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
+    # Used when converting enobio timestamps to unix timestamps
+    mt, uxt = monotonic(), time()
+
     df = pd.DataFrame(columns=CHANNELS + MARKERS)
+    # lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
+    acc, seen = 0, 0
+
     print("now receiving data...")
-    acc = 0
     while True:
         try:
             # EEG uses
             tmp = pull_df(ieeg, ipsypy, mt, uxt)
-            if not tmp.empty:
+            seen += tmp[(tmp["direction"] == tmp["markers"])].shape[0]
+            if not tmp.empty or not tmp.isna().all().all():
                 df = pd.concat([df, tmp])  # .ffill()
 
-            # seen = df[df["direction"] == df["markers"]].shape[0]
+            print(f"\r{seen}", end="")
             df = df.ffill()
-            # print(f"\r{seen}", end="")
 
             # lt.fit(df.copy()[df["markers"] == 3], seen)
 
             if acc % 20000 == 0:
-                df.to_parquet(f"eeg_data/{pid}{id}.pq")
-                df.to_csv(f"eeg_data/{pid}{id}.csv")
+                save()
                 acc = 0
             acc += 1
-            if 86 in df["markers"]:
-                save(df)
+            if (df["markers"] == 86).any():
+                save()
                 exit(0)
 
         except Exception as e:
+            df.to_csv(f"eeg_data/{pid}-{id}_exception_backup.csv")
             raise Exception from e
 
 
