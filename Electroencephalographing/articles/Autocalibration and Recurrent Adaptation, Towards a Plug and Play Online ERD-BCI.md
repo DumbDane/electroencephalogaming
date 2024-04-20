@@ -10,7 +10,7 @@ DOI: https://doi.org/10.1109/TNSRE.2012.2189584
 link: https://ieeexplore.ieee.org/document/6177271
 tags:
   - motor-imagery
-Read: false
+Read: true
 ---
 
 # Autocalibration and Recurrent Adaptation: Towards a Plug and Play Online ERD-BCI
