@@ -51,17 +51,16 @@ def pull_df(eeg: StreamInlet, psypy: StreamInlet, mt: float, uxt: float) -> pd.D
 
 def main(pid: str) -> None:
     id = len(glob("eeg_data/*")) // 2
+    # Used when converting enobio timestamps to unix timestamps
+    mt, uxt = monotonic(), time()
 
     def save():
-        df.to_parquet(f"eeg_data/{pid}-{id}.pq")
-        df.to_csv(f"eeg_data/{pid}-{id}.csv")
+        df.reset_index(names=["timestamp"]).to_parquet(f"eeg_data/{pid}-{id}-{int(mt)}.pq")
+        df.reset_index(names=["timestamp"], drop=True).to_csv(f"eeg_data/{pid}-{id}-{int(mt)}.csv")
 
     ieeg, ipsypy = get_inlet_streams()
     # pid = int(ipsypy.info().desc().child_value("participant_id"))
     # num_trials = int(ipsypy.info().desc().child_value("num_trials"))
-
-    # Used when converting enobio timestamps to unix timestamps
-    mt, uxt = monotonic(), time()
 
     df = pd.DataFrame(columns=CHANNELS + MARKERS)
     # lt = LiveTrainer(FEATURE_NAMES, CLASSES, MARKERS, LDA(), mt, uxt, num_trials)
