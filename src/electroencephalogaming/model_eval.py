@@ -26,7 +26,7 @@ from argparse import ArgumentParser
 
 def load_raw(pathglob: str, read_raw_func: Callable = read_raw_fif, **kwargs):
     """
-    Uses glob pattern to read and concatenate raw files.
+    Uses glob pattern to read and concatenate raw files. Outputs a warning for _prep files, safe to ignore.
 
     >>> pathglob      : glob pattern used to find raw files
     >>> read_raw_func : mne io function used to read globbed files
@@ -35,6 +35,7 @@ def load_raw(pathglob: str, read_raw_func: Callable = read_raw_fif, **kwargs):
     """
 
     raw_fnames = glob(pathglob)
+    print(raw_fnames)
     raw = concatenate_raws([read_raw_func(f, preload=True) for f in raw_fnames])
 
     montage = make_standard_montage(kwargs.get("montage", "standard_1005"))
@@ -163,16 +164,19 @@ def plot_cf(
     group_counts = ["{0:0.0f}".format(value) for value in cf.flatten()]
     labels = [f"{v1}\n{v2}" for v1, v2 in zip(group_names, group_counts)]
     labels = np.asarray(labels).reshape(len(classes), len(classes))
-    print(labels)
 
     # creating the heatmap and adding titels
-    f, ax = plt.subplots(figsize=(10, 7))
+    f, ax = plt.subplots(figsize=(10, 7), dpi=80, facecolor="w", edgecolor="k")
     ticks = [label_convert[c] for c in classes]
+    # vmax = sum(sum(x) for x in cf) / 2
+    # vmin = vmax / len(classes)
+    # print(vmin)
     sns.heatmap(cf, annot=labels, fmt="", cmap=cmap, xticklabels=ticks, yticklabels=ticks, ax=ax)
 
     ax.set_xlabel("Predicted", fontdict=font)
     ax.set_ylabel("Actual", fontdict=font)
 
+    f.canvas.manager.set_window_title(f"cf_{kwargs.get('subject')}_{kwargs.get('filetype')}")
     plt.suptitle(title, fontsize=18, x=0.45)
     plt.title("Heatmap of the confusion matrix", fontsize=12)
     plt.show(block=True)
@@ -181,7 +185,7 @@ def plot_cf(
 
 
 def plot_sliding_window(
-    cv: ShuffleSplit, epochs_full, epochs_train: Epochs, classes: list[str | int], labels: list[str | int], sfreq
+    cv: ShuffleSplit, epochs_full, epochs_train: Epochs, classes: list[str | int], labels: list[str | int], sfreq, **kwargs
 ):
     """
     Plot sliding window graph for a PCA |> CSP |> SVC pipeline.
@@ -225,7 +229,8 @@ def plot_sliding_window(
 
     # Plot scores over time
     w_times = (w_start + w_length / 2.0) / sfreq + epochs_full.tmin
-    plt.figure()
+    f = plt.figure()
+    f.canvas.manager.set_window_title(f"slidingwindow_{kwargs.get('subject')}_{kwargs.get('filetype')}")
     plt.plot(w_times, np.mean(scores_windows, 0), label="Score")
     plt.axvline(0, linestyle="--", color="k", label="Onset")
     plt.axhline(0.5, linestyle="-", color="k", label="Chance")
@@ -238,10 +243,10 @@ def plot_sliding_window(
 
 
 def main(tmin: float, tmax: float, classes: list[str | int], subject: str, session: str, **kwargs):
-    path = f"data/scratch/{subject}/{session}/**raw.fif"
+    path = f"data/scratch/{subject}/*{session}*/*{kwargs.get('filetype')}.fif"
 
     raw = load_raw(path, **kwargs)
-    epochs_full = load_epochs(raw, classes=classes, **kwargs)
+    epochs_full = load_epochs(raw, classes=classes)
     labels = epochs_full.events[:, -1]
 
     epochs_train = epochs_full.copy().crop(tmin=tmin, tmax=tmax, verbose=False)
@@ -249,7 +254,7 @@ def main(tmin: float, tmax: float, classes: list[str | int], subject: str, sessi
     tc, pc, scores, cv = train(epochs_train, labels)
 
     title = f"Motor Imagery for {len(classes)} classes"
-    plot_cf(confusion_matrix(tc, pc), title, classes)
+    plot_cf(confusion_matrix(tc, pc), title, classes, **kwargs)
     class_balance = np.mean(labels == labels[0])
     class_balance = min(class_balance, 1.0 - class_balance)
     print(classification_report(pc, tc))  # print classification report
@@ -269,8 +274,10 @@ if __name__ == "__main__":
     parser.add_argument("--classes", "-c", default=[90, 180, 270], type=int, nargs="*")
 
     parser.add_argument("--participant", "-p", dest="subject", required=True, type=str)
+    parser.add_argument("--filetype", "-f", choices=["raw", "prep"], default="prep", type=str)
     parser.add_argument("--session", "-s", type=str, default="*")
 
+    parser.add_argument("--save", action="store_false", help="Whether to save created figures or not")
     args, unk = parser.parse_known_args()
 
     main(**vars(args))
