@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from glob import glob
+from importlib.resources import files
 
 from sklearn.svm import SVC
 from sklearn.model_selection import ShuffleSplit, cross_val_score
@@ -243,8 +244,9 @@ def plot_sliding_window(
 
 
 def main(tmin: float, tmax: float, classes: list[str | int], subject: str, session: str, **kwargs):
-    path = f"data/scratch/{subject}/*{session}*/*{kwargs.get('filetype')}.fif"
-
+    ftype = kwargs.get("filetype")
+    path = files("electroencephalogaming") / "data" / "scratch" / subject / f"*{session}*/*{ftype}.fif"
+    path = str(path)
     raw = load_raw(path, **kwargs)
     epochs_full = load_epochs(raw, classes=classes)
     labels = epochs_full.events[:, -1]
@@ -257,9 +259,11 @@ def main(tmin: float, tmax: float, classes: list[str | int], subject: str, sessi
     plot_cf(confusion_matrix(tc, pc), title, classes, **kwargs)
     class_balance = np.mean(labels == labels[0])
     class_balance = min(class_balance, 1.0 - class_balance)
-    print(classification_report(pc, tc))  # print classification report
-    print("=" * 20)
-    print(f"Classification accuracy: {np.mean(scores)} / Chance level: {class_balance}")
+    with open("clfs.log", "a") as outf:
+        print(f"{subject = }, {session = }, {classes = }, {tmin = }, {tmax = }, {ftype = }", file=outf)
+        print(classification_report(pc, tc), file=outf)  # print classification report
+        print(f"Classification accuracy: {np.mean(scores)} / Chance level: {class_balance}", file=outf)
+        print("=" * 20, file=outf)
     if len(classes) < 3:
         sfreq = raw.info["sfreq"]
 
