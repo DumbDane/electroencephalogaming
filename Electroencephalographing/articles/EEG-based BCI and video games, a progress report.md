@@ -64,7 +64,7 @@ The biggest problem in the SSVEP-based BCI is the fact that the band of easily d
 
 Different stimuli can be stacked for combined effect. 
 
-A recent addition ot the available interaction modalities is the motion-onset VEP (mVEP) ERP which is evoked when the focused stimuli exhibits a movement.
+A recent addition to the available interaction modalities is the motion-onset VEP (mVEP) ERP which is evoked when the focused stimuli exhibits a movement.
 
 Another interesting innovation in the way the stimuli is encoded is the codebook VEP (cVEP), where the stimuli do not follow the fixed frequency flashes as is the case with SSVEP, but flashes according to a pseudo-random binary sequence. This methodology promises to expand the number of different stimuli, since the span of usable flashing frequencies in a SSVEP-based system is restricted.
 
