@@ -87,6 +87,57 @@ def load_epochs(raw: Raw, classes: list[str]):
     return epochs
 
 
+def multi_train(epochs_train: list[Epochs], labels_lst: list[list[str]]):
+    true_classes, pred_classes = [], []
+
+    def classification_report_with_accuracy_score(y_true, y_pred):
+        # print(classification_report(y_true, y_pred)) # print classification report
+        true_classes.extend(y_true)
+        pred_classes.extend(y_pred)
+        return accuracy_score(y_true, y_pred)  # return accuracy score
+
+    # Define a monte-carlo cross-validation generator (reduce variance):
+    scores = []
+
+    labels = np.concatenate([label for label in labels_lst])
+    epochs_data = np.concatenate([ep.get_data(copy=True)[:, :, :2801] for ep in epochs_train])
+    cv = ShuffleSplit(10, test_size=0.2, random_state=42)
+
+    # Preprocessing
+    # scaler = Scaler(epochs_train[0].info)
+    csp = CSP(n_components=8, reg=None, norm_trace=False, log=True)
+    pca = UnsupervisedSpatialFilter(PCA(), average=False)
+    # vec = Vectorizer()
+
+    # Assemble a classifier
+    # lda = LinearDiscriminantAnalysis()
+    svc = SVC(kernel="linear")
+
+    # Use scikit-learn Pipeline with cross_val_score function
+    clf = Pipeline([("PCA", pca), ("CSP", csp), ("SVC", svc)])  # For two-class systems
+    # clf = Pipeline([("Scaler", scaler), ("PCA", pca), ("Vectorizer", vec), ("SVM", svc)])
+
+    scores = cross_val_score(
+        clf, epochs_data, labels, cv=cv, n_jobs=None, scoring=make_scorer(classification_report_with_accuracy_score)
+    )
+    # Note: epochs_data needs to be shaped in accordance with dataset you want to test on.
+    clf.fit(epochs_data[:, :, :2801], labels)
+    # scores = cross_val_score(clf, epochs, labels, cv=cv, n_jobs=None)
+
+    # Printing the results
+    # class_balance = np.mean(labels == labels[0])
+    # class_balance = max(class_balance, 1.0 - class_balance)
+    # print(f"Classification accuracy: {np.mean(scores)} / Chance level: {class_balance}")
+
+    # plot CSP patterns estimated on full data for visualization
+    # csp.fit_transform(epochs_data, labels)
+
+    # csp.plot_patterns(epochs.info, ch_type="eeg", units="Patterns (AU)", size=1.5)
+    # Printing the results
+
+    return true_classes, pred_classes, scores, cv, clf
+
+
 def train(epochs_train: Epochs, labels: list[str]):
     true_classes, pred_classes = [], []
 
@@ -112,13 +163,19 @@ def train(epochs_train: Epochs, labels: list[str]):
     svc = SVC(kernel="linear")
 
     # Use scikit-learn Pipeline with cross_val_score function
-    # clf = Pipeline([("PCA", pca), ("CSP", csp), ("LDA", lda)])
-    # clf = Pipeline([("Scaler", scaler), ("PCA", pca), ("Vectorizer", vec), ("LDA", lda)])
+    # clf = Pipeline([("PCA", pca), ("CSP", csp), ("SVC", svc)]) # For two-class systems
     clf = Pipeline([("Scaler", scaler), ("PCA", pca), ("Vectorizer", vec), ("SVM", svc)])
+
+    from sklearn.utils import estimator_html_repr
+
+    with open("figs/pipeline_pca.html", "w", encoding="utf-8") as f:
+        f.write(estimator_html_repr(clf))
 
     scores = cross_val_score(
         clf, epochs_data, labels, cv=cv, n_jobs=None, scoring=make_scorer(classification_report_with_accuracy_score)
     )
+    # Note: epochs_data needs to be shaped in accordance with dataset you want to test on.
+    clf.fit(epochs_data[:, :, :2801], labels)
     # scores = cross_val_score(clf, epochs, labels, cv=cv, n_jobs=None)
 
     # Printing the results
@@ -132,7 +189,7 @@ def train(epochs_train: Epochs, labels: list[str]):
     # csp.plot_patterns(epochs.info, ch_type="eeg", units="Patterns (AU)", size=1.5)
     # Printing the results
 
-    return true_classes, pred_classes, scores, cv
+    return true_classes, pred_classes, scores, cv, clf
 
 
 def plot_cf(
@@ -249,25 +306,57 @@ def main(tmin: float, tmax: float, classes: list[str | int], subject: str, sessi
     path = str(path)
     raw = load_raw(path, **kwargs)
     epochs_full = load_epochs(raw, classes=classes)
-    labels = epochs_full.events[:, -1]
+    labels_l = epochs_full.events[:, -1]
 
-    epochs_train = epochs_full.copy().crop(tmin=tmin, tmax=tmax, verbose=False)
+    epochs_train_l = epochs_full.copy().crop(tmin=tmin, tmax=tmax, verbose=False)
 
-    tc, pc, scores, cv = train(epochs_train, labels)
+    tc, pc, scores, cv, clf = train(epochs_train_l, labels_l)
+
+    exit()
 
     title = f"Motor Imagery for {len(classes)} classes"
-    plot_cf(confusion_matrix(tc, pc), title, classes, **kwargs)
-    class_balance = np.mean(labels == labels[0])
+    class_balance = np.mean(labels_l == labels_l[0])
     class_balance = min(class_balance, 1.0 - class_balance)
     with open("clfs.log", "a") as outf:
         print(f"{subject = }, {session = }, {classes = }, {tmin = }, {tmax = }, {ftype = }", file=outf)
         print(classification_report(pc, tc), file=outf)  # print classification report
         print(f"Classification accuracy: {np.mean(scores)} / Chance level: {class_balance}", file=outf)
         print("=" * 20, file=outf)
+    plot_cf(confusion_matrix(tc, pc), title, classes, **kwargs)
     if len(classes) < 3:
         sfreq = raw.info["sfreq"]
 
-        plot_sliding_window(cv, epochs_full, epochs_train, classes, labels, sfreq)
+        plot_sliding_window(cv, epochs_full, epochs_train_l, classes, labels_l, sfreq)
+
+    path = f"data/scratch/laurids/*{session}*/*{kwargs.get('filetype')}.fif"
+
+    raw = load_raw(path, **kwargs)
+    epochs_full = load_epochs(raw, classes=classes)
+    labels_c = epochs_full.events[:, -1]
+    epochs_train_c = epochs_full.copy().crop(tmin=tmin, tmax=tmax, verbose=False)
+    # Note: epochs_data needs to be shaped in accordance with dataset you want to test on.
+    epochs_data_c = epochs_train_c.get_data(copy=False)[:, :, :2801]
+
+    print(epochs_data_c.shape)
+
+    score = clf.score(epochs_data_c, labels_c)
+    print(f"{score = }")
+
+    print("Starting multi-training...")
+    labels_combo = np.concatenate([labels_l, labels_c])
+    tc, pc, scores, cv, clf = multi_train([epochs_train_l, epochs_train_c], [labels_l, labels_c])
+
+    print(f"{pc = }")
+
+    title = f"Motor Imagery for {len(classes)} classes"
+    class_balance = np.mean(labels_combo == labels_combo[0])
+    class_balance = min(class_balance, 1.0 - class_balance)
+    with open("clfs.log", "a") as outf:
+        print(f"Comboset between both subjects, {session = }, {classes = }, {tmin = }, {tmax = }, {ftype = }", file=outf)
+        print(classification_report(pc, tc), file=outf)  # print classification report
+        print(f"Classification accuracy: {np.mean(scores)} / Chance level: {class_balance}", file=outf)
+        print("=" * 20, file=outf)
+    plot_cf(confusion_matrix(tc, pc), title, classes, **kwargs)
 
 
 if __name__ == "__main__":
